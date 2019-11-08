@@ -3,3 +3,4 @@
 tonggong.egg-info
 build
 dist
+*.pyc
