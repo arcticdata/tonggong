@@ -9,6 +9,11 @@ class FormatterTestCase(unittest.TestCase):
         test_cases = [
             (' hello world！', 'helloworld'),
             ('Adding To...', 'AddingTo'),
+            ('(你好)', '你好'),
+            ('（你好）', '你好'),
+            ('%%abc', 'abc'),
+            ('!#$%^&()~??}}{{++><abc', 'abc'),
+            ('        ', ''),
         ]
         for case, expected in test_cases:
             actual = tonggong.formatter.remove_special_character(case)
