@@ -59,7 +59,7 @@ class Formatter(object):
         return '{}年'.format(_year)
 
     @classmethod
-    def format_number_to_chinese_display(cls, number: float) -> str:
+    def chinese_number(cls, number: float) -> str:
         """ 数字的中文展示 """
         _num = 100000000
         if not number % 100 and 10000 <= number < _num:
@@ -114,7 +114,7 @@ class YAxisFormatter(Formatter):
             unit = '万'
         if 0 < gap <= 5 or 10000 < gap <= 50000 or 100000000 < gap <= 500000000:
             point = 2
-        value = ('%.{}f'.format(point)) % (value / flag)
+        value = '{:.{point}f}'.format(value / flag, point=point)
         return value + unit
 
 
