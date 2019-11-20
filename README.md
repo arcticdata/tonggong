@@ -7,7 +7,7 @@
     <a href="https://pypi.python.org/pypi/tonggong">
         <img src="https://img.shields.io/pypi/pyversions/tonggong?style=flat-square" />
     </a>
-    <a href="https://travis-ci.org/arcticdata/tonggong">
+    <a href="https://github.com/arcticdata/tonggong/blob/master/LICENSE">
         <img src="https://img.shields.io/pypi/l/tonggong?style=flat-square" alt="License" />
     </a>
     <a href="https://travis-ci.org/arcticdata/tonggong">
