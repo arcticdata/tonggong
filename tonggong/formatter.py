@@ -1,6 +1,6 @@
 import datetime
+from typing import Union
 
-from tonggong.converter import Converter
 
 _special_characters = """!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏·° \t\n\r\v\f"""
 _translator = str.maketrans('', '', _special_characters)
@@ -13,9 +13,10 @@ def remove_special_character(_str: str) -> str:
 
 class Formatter(object):
     @classmethod
-    def money(cls, value):
+    def money(cls, value) -> str:
         if value is None:
             return '-'
+        from tonggong.converter import Converter
         value = Converter.get_decimal(value)
         _base = '({})' if value < 0 else '{}'
         value = abs(value)
@@ -26,35 +27,35 @@ class Formatter(object):
         return '{}元'.format(_base.format(value))
 
     @classmethod
-    def text(cls, value):
+    def text(cls, value) -> str:
         return str(value)
 
     @classmethod
-    def int(cls, value):
+    def int(cls, value) -> str:
         return str(int(value))
 
     @classmethod
-    def date(cls, value):
+    def date(cls, value: Union[str, datetime.date, datetime.datetime]) -> str:
         if isinstance(value, str):
             value = datetime.datetime.strptime(value, '%Y-%m-%d')
         return value.strftime('%Y-%m-%d')
 
     @classmethod
-    def month(cls, _year, _month):
+    def month(cls, _year, _month) -> str:
         return '{}年{}月'.format(_year, _month)
 
     @classmethod
-    def week(cls, _year, _week):
+    def week(cls, _year, _week) -> str:
         value = '{}-{}-1'.format(_year, _week)
         _monday = datetime.datetime.strptime(value, '%Y-%W-%w')
         return Formatter.date(_monday)
 
     @classmethod
-    def quarter(cls, _year, _quarter):
+    def quarter(cls, _year, _quarter) -> str:
         return '{}年{}季度'.format(_year, _quarter)
 
     @classmethod
-    def year(cls, _year):
+    def year(cls, _year) -> str:
         return '{}年'.format(_year)
 
     @classmethod
@@ -70,23 +71,23 @@ class Formatter(object):
 
 class YAxisFormatter(Formatter):
     @classmethod
-    def money(cls, value, gap=0):
+    def money(cls, value, gap=0) -> str:
         return cls._number(value, gap)
 
     @classmethod
-    def int(cls, value, gap=0):
+    def int(cls, value, gap=0) -> str:
         return cls._number(value, gap)
 
     @classmethod
-    def decimal(cls, value, gap=0):
+    def decimal(cls, value, gap=0) -> str:
         return cls._number(value, gap)
 
     @classmethod
-    def float(cls, value, gap=0):
+    def float(cls, value, gap=0) -> str:
         return cls._number(value, gap)
 
     @classmethod
-    def percent(cls, value):
+    def percent(cls, value) -> str:
         if isinstance(value, str):
             if not value.endswith('%'):
                 value = str(float(value) * 100) + '%'
@@ -95,13 +96,13 @@ class YAxisFormatter(Formatter):
             return str(value * 100) + '%'
 
     @classmethod
-    def text(cls, value):
+    def text(cls, value) -> str:
         if isinstance(value, (list, tuple, set)):
             value = ','.join(map(str, value))
         return str(value)
 
     @classmethod
-    def _number(cls, value, gap=0):
+    def _number(cls, value, gap=0) -> str:
         unit = ''
         flag = 1
         point = 0
@@ -118,9 +119,8 @@ class YAxisFormatter(Formatter):
 
 
 class XAxisFormatter(Formatter):
-
     @classmethod
-    def text(cls, value):
+    def text(cls, value) -> str:
         if isinstance(value, (list, tuple, set)):
             value = ','.join(map(str, value))
         return str(value)
