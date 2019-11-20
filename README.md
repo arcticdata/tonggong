@@ -2,10 +2,16 @@
 
 <p align="left">
     <a href="https://pypi.python.org/pypi/tonggong">
-        <img src="https://img.shields.io/pypi/v/tonggong.svg" alt="Package" />
+        <img src="https://img.shields.io/pypi/v/tonggong?style=flat-square" alt="Package" />
+    </a>
+    <a href="https://pypi.python.org/pypi/tonggong">
+        <img src="https://img.shields.io/pypi/pyversions/tonggong?style=flat-square" />
     </a>
     <a href="https://travis-ci.org/arcticdata/tonggong">
-        <img src="https://img.shields.io/travis/arcticdata/tonggong.svg" alt="Travis" />
+        <img src="https://img.shields.io/pypi/l/tonggong?style=flat-square" alt="License" />
+    </a>
+    <a href="https://travis-ci.org/arcticdata/tonggong">
+        <img src="https://img.shields.io/travis/arcticdata/tonggong?style=flat-square" alt="Travis" />
     </a>
 </p>
 
