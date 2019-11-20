@@ -16,4 +16,4 @@ class Generator(object):
 
     @staticmethod
     def phone() -> str:
-        return '1{:010d}'.format(random.randint(1, 10000000000))
+        return '1{:010d}'.format(random.randint(1, 9999999999))
