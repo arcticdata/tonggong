@@ -10,8 +10,6 @@
     <a href="https://github.com/arcticdata/tonggong/blob/master/LICENSE">
         <img src="https://img.shields.io/pypi/l/tonggong?style=flat-square" alt="License" />
     </a>
-</p>
-<p align="left">
     <a href="https://codecov.io/gh/arcticdata/tonggong">
         <img src="https://img.shields.io/codecov/c/gh/arcticdata/tonggong/master?style=flat-square" alt="Codecov" />
     </a>
