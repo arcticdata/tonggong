@@ -46,9 +46,10 @@ class Formatter(object):
 
     @classmethod
     def week(cls, _year, _week) -> str:
-        value = '{}-{}-1'.format(_year, _week)
-        _monday = datetime.datetime.strptime(value, '%Y-%W-%w')
-        return Formatter.date(_monday)
+        from tonggong.isoweek import Week
+
+        w = Week(_year, _week)
+        return Formatter.date(w.monday())
 
     @classmethod
     def quarter(cls, _year, _quarter) -> str:

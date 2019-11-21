@@ -17,3 +17,12 @@ class FormatterTestCase(unittest.TestCase):
         for case, expected in test_cases:
             actual = tonggong.formatter.remove_special_character(case)
             self.assertEqual(expected, actual)
+
+    def test_isoweek(self):
+        test_cases = [
+            ((2019, 1), '2018-12-31'),
+            ((2018, 1), '2018-01-01'),
+        ]
+        for case, expected in test_cases:
+            actual = tonggong.formatter.Formatter.week(*case)
+            self.assertEqual(expected, actual)
