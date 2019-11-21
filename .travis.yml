@@ -7,7 +7,18 @@ python:
   - "3.8"
 
 install:
-  - pip install pytest
+  - pip install pytest pytest-cov codecov
 
 script:
-  - pytest
+  - pytest  --cov=./
+
+after_success:
+  - codecov
+
+deploy:
+  provider: pypi
+  edge: true
+  distributions: "sdist bdist_wheel"
+  skip_existing: true
+  on:
+    tags: true
