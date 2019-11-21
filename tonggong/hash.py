@@ -7,7 +7,7 @@ class Hash(object):
         return hashlib.md5(value.encode()).hexdigest()
 
     @staticmethod
-    def sha1(value: str):
+    def sha1(value: str) -> str:
         return hashlib.sha1(value.encode()).hexdigest()
 
     @staticmethod

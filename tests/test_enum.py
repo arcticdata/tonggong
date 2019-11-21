@@ -35,3 +35,17 @@ class EnumTestCase(unittest.TestCase):
         a = Alphabet('a')
         self.assertEqual(a, Alphabet.A)
         self.assertNotEqual(a, Alphabet.B)
+
+    def test_choices(self):
+        class Alphabet(StrEnum):
+            A = 'a'
+            B = 'b'
+
+        expected = [
+            ('a', 'a'),
+            ('b', 'b'),
+        ]
+        self.assertEqual(expected, Alphabet.choices())
+
+        expected = ['a', 'b']
+        self.assertEqual(expected, Alphabet.choice_values())

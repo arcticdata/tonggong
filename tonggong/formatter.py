@@ -1,7 +1,6 @@
 import datetime
 from typing import Union
 
-
 _special_characters = """!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏·° \t\n\r\v\f"""
 _translator = str.maketrans('', '', _special_characters)
 
@@ -28,6 +27,11 @@ class Formatter(object):
 
     @classmethod
     def text(cls, value) -> str:
+        # 无序结构排序后返回
+        if isinstance(value, set):
+            value = sorted(value)
+        if isinstance(value, (list, tuple)):
+            value = ','.join(map(str, value))
         return str(value)
 
     @classmethod
@@ -97,12 +101,6 @@ class YAxisFormatter(Formatter):
             return str(value * 100) + '%'
 
     @classmethod
-    def text(cls, value) -> str:
-        if isinstance(value, (list, tuple, set)):
-            value = ','.join(map(str, value))
-        return str(value)
-
-    @classmethod
     def _number(cls, value, gap=0) -> str:
         unit = ''
         flag = 1
@@ -120,8 +118,4 @@ class YAxisFormatter(Formatter):
 
 
 class XAxisFormatter(Formatter):
-    @classmethod
-    def text(cls, value) -> str:
-        if isinstance(value, (list, tuple, set)):
-            value = ','.join(map(str, value))
-        return str(value)
+    pass
