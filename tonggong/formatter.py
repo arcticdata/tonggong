@@ -92,10 +92,10 @@ class YAxisFormatter(Formatter):
         return cls._number(value, gap)
 
     @classmethod
-    def percent(cls, value) -> str:
+    def percent(cls, value, decimal_place=2) -> str:
         if isinstance(value, str):
             if not value.endswith('%'):
-                value = str(float(value) * 100) + '%'
+                value = str(round(float(value) * 100, decimal_place)) + '%'
             return value
         else:
             return str(value * 100) + '%'
