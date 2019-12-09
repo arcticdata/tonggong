@@ -181,10 +181,13 @@ class YAxisFormatterTestCase(unittest.TestCase):
     def test_percent(self):
         test_cases = [
             (('0.23',), '23.0%'),
+            ((0.23,), '23.0%'),
             (('0.999',), '99.9%'),
             (('0.991234',), '99.12%'),
+            ((0.991234,), '99.12%'),
             (('95.4%',), '95.4%'),
             (('0.99123456789', 3), '99.123%'),
+            ((0.99123456789, 3), '99.123%'),
         ]
         for case, expected in test_cases:
             actual = YAxisFormatter.percentage(*case)
