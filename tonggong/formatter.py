@@ -98,7 +98,7 @@ class YAxisFormatter(Formatter):
                 value = str(round(float(value) * 100, decimal_place)) + '%'
             return value
         else:
-            return str(value * 100) + '%'
+            return str(round(value * 100, decimal_place)) + '%'
 
     @classmethod
     def _number(cls, value, gap=0) -> str:
