@@ -187,5 +187,5 @@ class YAxisFormatterTestCase(unittest.TestCase):
             (('0.99123456789', 3), '99.123%'),
         ]
         for case, expected in test_cases:
-            actual = YAxisFormatter.percent(*case)
+            actual = YAxisFormatter.percentage(*case)
             self.assertEqual(expected, actual)
