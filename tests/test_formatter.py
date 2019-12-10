@@ -209,6 +209,7 @@ class TableFormatterTestCase(unittest.TestCase):
             (-3, '-3'),
             (-55000, '-55,000'),
             (-1100000000, '-1,100,000,000'),
+            (None, '-'),
         ]
         for case, expected in test_cases:
             actual = TableFormatter.int(case)
@@ -222,6 +223,7 @@ class TableFormatterTestCase(unittest.TestCase):
             (-3.355, '-3.35'),
             (-55000, '-55,000.00'),
             (-1100000000, '-1,100,000,000.00'),
+            (None, '-'),
         ]
         for case, expected in test_cases:
             actual = TableFormatter.money(case)
@@ -235,6 +237,7 @@ class TableFormatterTestCase(unittest.TestCase):
             (-3.355, '-3.35'),
             (-55000, '-55,000.00'),
             (-1100000000, '-1,100,000,000.00'),
+            (None, '-'),
         ]
         for case, expected in test_cases:
             actual = TableFormatter.decimal(case)
@@ -246,6 +249,7 @@ class TableFormatterTestCase(unittest.TestCase):
             (55000.11, '55,000.1100'),
             (1100000000.55, '1,100,000,000.5500'),
             (1.12345, '1.1235'),
+            (None, '-'),
         ]
         for case, expected in test_cases:
             actual = TableFormatter.float(case)
