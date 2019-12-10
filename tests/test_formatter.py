@@ -2,7 +2,7 @@ import datetime
 import decimal
 import unittest
 
-from tonggong.formatter import Formatter, YAxisFormatter, remove_special_character
+from tonggong.formatter import Formatter, TableFormatter, YAxisFormatter, remove_special_character
 
 
 class FormatterTestCase(unittest.TestCase):
@@ -195,4 +195,62 @@ class YAxisFormatterTestCase(unittest.TestCase):
         ]
         for case, expected in test_cases:
             actual = YAxisFormatter.percentage(*case)
+            self.assertEqual(expected, actual)
+
+
+class TableFormatterTestCase(unittest.TestCase):
+    def test_int(self):
+        test_cases = [
+            (2.9, '3'),
+            (3, '3'),
+            (55000, '55,000'),
+            (1100000000, '1,100,000,000'),
+            (-2.9, '-3'),
+            (-3, '-3'),
+            (-55000, '-55,000'),
+            (-1100000000, '-1,100,000,000'),
+            (None, '-'),
+        ]
+        for case, expected in test_cases:
+            actual = TableFormatter.int(case)
+            self.assertEqual(expected, actual)
+
+    def test_money(self):
+        test_cases = [
+            (3.355, '3.35'),
+            (55000, '55,000.00'),
+            (1100000000, '1,100,000,000.00'),
+            (-3.355, '-3.35'),
+            (-55000, '-55,000.00'),
+            (-1100000000, '-1,100,000,000.00'),
+            (None, '-'),
+        ]
+        for case, expected in test_cases:
+            actual = TableFormatter.money(case)
+            self.assertEqual(expected, actual)
+
+    def test_decimal(self):
+        test_cases = [
+            (3.355, '3.35'),
+            (55000, '55,000.00'),
+            (1100000000, '1,100,000,000.00'),
+            (-3.355, '-3.35'),
+            (-55000, '-55,000.00'),
+            (-1100000000, '-1,100,000,000.00'),
+            (None, '-'),
+        ]
+        for case, expected in test_cases:
+            actual = TableFormatter.decimal(case)
+            self.assertEqual(expected, actual)
+
+    def test_float(self):
+        test_cases = [
+            (3.357, '3.3570'),
+            (55000.11, '55,000.1100'),
+            (1100000000.55, '1,100,000,000.5500'),
+            (1.12345, '1.1235'),
+            (None, '-'),
+        ]
+        for case, expected in test_cases:
+            actual = TableFormatter.float(case)
             self.assertEqual(expected, actual)

@@ -119,3 +119,37 @@ class YAxisFormatter(Formatter):
 
 class XAxisFormatter(Formatter):
     pass
+
+
+class TableFormatter(Formatter):
+    @classmethod
+    def int(cls, value) -> str:
+        if value is None:
+            return '-'
+        from tonggong.converter import Converter
+        value = Converter.get_int(value)
+        return format(value, ',')
+
+    @classmethod
+    def money(cls, value) -> str:
+        if value is None:
+            return '-'
+        from tonggong.converter import Converter
+        value = Converter.get_decimal(value)
+        return format(value, ',')
+
+    @classmethod
+    def decimal(cls, value):
+        if value is None:
+            return '-'
+        from tonggong.converter import Converter
+        value = Converter.get_decimal(value)
+        return format(value, ',')
+
+    @classmethod
+    def float(cls, value) -> str:
+        if value is None:
+            return '-'
+        from tonggong.converter import Converter
+        value = Converter.get_decimal(value, decimal_places=4)
+        return format(value, ',')
