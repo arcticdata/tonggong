@@ -19,22 +19,26 @@ class EnumTestCase(unittest.TestCase):
             A = 1
             B = 2
 
-        self.assertEqual(Alphabet.A, 1)
+        self.assertEqual(1, Alphabet.A)
 
         a = Alphabet(1)
         self.assertEqual(a, Alphabet.A)
         self.assertNotEqual(a, Alphabet.B)
+        self.assertEqual('1', format(Alphabet.A))
+        self.assertEqual('1', '{}'.format(Alphabet.A))
 
     def test_str_enum(self):
         class Alphabet(StrEnum):
             A = 'a'
             B = 'b'
 
-        self.assertEqual(Alphabet.A, 'a')
+        self.assertEqual('a', Alphabet.A)
 
         a = Alphabet('a')
         self.assertEqual(a, Alphabet.A)
         self.assertNotEqual(a, Alphabet.B)
+        self.assertEqual('a', format(Alphabet.A))
+        self.assertEqual('a', '{}'.format(Alphabet.A))
 
     def test_choices(self):
         class Alphabet(StrEnum):
