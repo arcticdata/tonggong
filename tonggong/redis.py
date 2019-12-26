@@ -3,19 +3,45 @@ from redis.lock import Lock, LockError
 
 
 def safe_delete_hash(conn: Redis, hash_key: str):
-    raise NotImplementedError
+    # rename the key
+    new_key = 'nk:{}'.format(hash_key)
+    conn.rename(hash_key, new_key)
+    cursor = 0
+    while True:
+        cursor, fields = conn.hscan(new_key, cursor, count=100)
+        if fields:
+            conn.hdel(new_key, *fields)
+        if not cursor:
+            break
 
 
 def safe_delete_list(conn: Redis, list_key: str):
-    raise NotImplementedError
+    # rename the key
+    new_key = 'nk:{}'.format(list_key)
+    conn.rename(list_key, new_key)
+    while conn.llen(new_key):
+        conn.ltrim(new_key, 0, -99)
 
 
 def safe_delete_set(conn: Redis, set_key: str):
-    raise NotImplementedError
+    # rename the key
+    new_key = 'nk:{}'.format(set_key)
+    conn.rename(set_key, new_key)
+    cursor = 0
+    while True:
+        cursor, members = conn.sscan(new_key, cursor, count=100)
+        if members:
+            conn.srem(new_key, *members)
+        if not cursor:
+            break
 
 
 def safe_delete_sorted_set(conn: Redis, sorted_set_key: str):
-    raise NotImplementedError
+    # rename the key
+    new_key = 'nk:{}'.format(sorted_set_key)
+    conn.rename(sorted_set_key, new_key)
+    while conn.zcard(new_key):
+        conn.zremrangebyrank(new_key, 0, 100)
 
 
 class RedisLock(Lock):
