@@ -1,21 +1,61 @@
 from redis import Redis
 from redis.lock import Lock, LockError
 
+from tonggong.hash import Hash
 
-def safe_delete_hash(conn: Redis, hash_key: str):
-    raise NotImplementedError
+_COUNT = 100
+
+
+def safe_delete_hash(conn: Redis, hash_key: str, count: int = None):
+    if not conn.exists(hash_key):
+        return
+    new_key = 'gc:hash:{}'.format(Hash.md5(hash_key))
+    conn.rename(hash_key, new_key)
+    cursor = 0
+    count = count or _COUNT
+    while True:
+        cursor, fields = conn.hscan(new_key, cursor, count=count)
+        if fields:
+            conn.hdel(new_key, *fields)
+        if not cursor:
+            break
+    conn.delete(new_key)
 
 
 def safe_delete_list(conn: Redis, list_key: str):
-    raise NotImplementedError
+    if not conn.exists(list_key):
+        return
+    new_key = 'gc:list:{}'.format(Hash.md5(list_key))
+    conn.rename(list_key, new_key)
+    while conn.llen(new_key):
+        conn.ltrim(new_key, 0, -99)
+    conn.delete(new_key)
 
 
-def safe_delete_set(conn: Redis, set_key: str):
-    raise NotImplementedError
+def safe_delete_set(conn: Redis, set_key: str, count: int = None):
+    if not conn.exists(set_key):
+        return
+    new_key = 'gc:set:{}'.format(Hash.md5(set_key))
+    conn.rename(set_key, new_key)
+    cursor = 0
+    count = count or _COUNT
+    while True:
+        cursor, members = conn.sscan(new_key, cursor, count=count)
+        if members:
+            conn.srem(new_key, *members)
+        if not cursor:
+            break
+    conn.delete(new_key)
 
 
 def safe_delete_sorted_set(conn: Redis, sorted_set_key: str):
-    raise NotImplementedError
+    if not conn.exists(sorted_set_key):
+        return
+    new_key = 'gc:zset:{}'.format(Hash.md5(sorted_set_key))
+    conn.rename(sorted_set_key, new_key)
+    while conn.zcard(new_key):
+        conn.zremrangebyrank(new_key, 0, 100)
+    conn.delete(new_key)
 
 
 class RedisLock(Lock):
