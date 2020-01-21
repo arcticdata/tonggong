@@ -40,8 +40,8 @@ class HashTestCase(unittest.TestCase):
         ]
         for text, expected in test_cases:
             _file_name = 'test.txt'
-            with open(_file_name, 'w+') as f:
+            with open(_file_name, 'w', encoding='utf-8') as f:
                 f.write(text)
             actual = Hash.file_md5(_file_name)
-            self.assertEqual(expected, actual)
             os.remove(_file_name)
+            self.assertEqual(expected, actual)
