@@ -15,6 +15,11 @@ class FormatterTestCase(unittest.TestCase):
             ('%%abc', 'abc'),
             ('!#$%^&()~??}}{{++><abc', 'abc'),
             ('        ', ''),
+            ('Hello World 123', 'HelloWorld123'),
+            ('0123456', '0123456'),
+            ('~123~', '123'),
+            ('**001', '001'),
+            (r'\2323', '2323'),
         ]
         for case, expected in test_cases:
             actual = remove_special_character(case)
