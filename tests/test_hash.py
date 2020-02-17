@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from tonggong.hash import Hash
@@ -29,4 +30,18 @@ class HashTestCase(unittest.TestCase):
         ]
         for expected, case in test_cases:
             actual = Hash.sha256(case)
+            self.assertEqual(expected, actual)
+
+    def test_file_md5(self):
+        test_cases = [
+            ('hello world !', '905138a85e85e74344e90d25dba7299e'),
+            ('123456789', '25f9e794323b453885f5181f1b624d0b'),
+            ('呦呦鹿鸣', '1a2b870578df18c78b57be0fbc564e91'),
+        ]
+        for text, expected in test_cases:
+            _file_name = 'test.txt'
+            with open(_file_name, 'w', encoding='utf-8') as f:
+                f.write(text)
+            actual = Hash.file_md5(_file_name)
+            os.remove(_file_name)
             self.assertEqual(expected, actual)
