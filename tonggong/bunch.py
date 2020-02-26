@@ -307,7 +307,7 @@ try:
             ...   Clark : Evans
             ...   Brian : Ingerson
             ...   Oren  : Ben-Kiki
-            ... ''') #doctest: +NORMALIZE_WHITESPACE
+            ... ''', Loader=yaml.FullLoader) #doctest: +NORMALIZE_WHITESPACE
             {'Flow style': Bunch(Brian='Ingerson', Clark='Evans', Oren='Ben-Kiki'),
              'Block style': Bunch(Brian='Ingerson', Clark='Evans', Oren='Ben-Kiki')}
 
