@@ -11,7 +11,7 @@ services:
 
 install:
   - pip install pytest pytest-cov codecov
-  - pip install redis
+  - pip install redis pyyaml
 
 script:
   - pytest  --cov=./

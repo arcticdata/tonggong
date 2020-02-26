@@ -22,6 +22,7 @@
     un/bunchify provide dictionary conversion; Bunches can also be
     converted via Bunch.to/fromDict().
 """
+import json
 
 
 class Bunch(dict):
@@ -274,32 +275,22 @@ def unbunchify(x):
         return x
 
 
-### Serialization
+# JSON Serialization
+def toJSON(self, **options):
+    """ Serializes this Bunch to JSON. Accepts the same keyword options as `json.dumps()`.
 
-try:
-    try:
-        import json
-    except ImportError:
-        import simplejson as json
-
-
-    def toJSON(self, **options):
-        """ Serializes this Bunch to JSON. Accepts the same keyword options as `json.dumps()`.
-
-            >>> b = Bunch(foo=Bunch(lol=True), hello=42, ponies='are pretty!')
-            >>> json.dumps(b)
-            '{"foo": {"lol": true}, "hello": 42, "ponies": "are pretty!"}'
-            >>> b.toJSON()
-            '{"foo": {"lol": true}, "hello": 42, "ponies": "are pretty!"}'
-        """
-        return json.dumps(self, **options)
+        >>> b = Bunch(foo=Bunch(lol=True), hello=42, ponies='are pretty!')
+        >>> json.dumps(b)
+        '{"foo": {"lol": true}, "hello": 42, "ponies": "are pretty!"}'
+        >>> b.toJSON()
+        '{"foo": {"lol": true}, "hello": 42, "ponies": "are pretty!"}'
+    """
+    return json.dumps(self, **options)
 
 
-    Bunch.toJSON = toJSON
+Bunch.toJSON = toJSON
 
-except ImportError:
-    pass
-
+# YAML Serialization
 try:
     # Attempt to register ourself with PyYAML as a representer
     import yaml
