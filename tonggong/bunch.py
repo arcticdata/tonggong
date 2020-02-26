@@ -1,6 +1,6 @@
 """ Bunch is a subclass of dict with attribute-style access.
 
-    From http://github.com/dsc/bunch
+    Refer https://github.com/dsc/bunch
 
     >>> b = Bunch()
     >>> b.hello = 'world'
@@ -53,8 +53,8 @@ class Bunch(dict):
 
         As well as iteration...
 
-        >>> [ (k,b[k]) for k in b ]
-        [('ponies', 'are pretty!'), ('foo', Bunch(lol=True)), ('hello', 42)]
+        >>> sorted([ (k, b[k]) for k in b ], key=lambda _: _[0])
+        [('foo', Bunch(lol=True)), ('hello', 42), ('ponies', 'are pretty!')]
 
         And "splats".
 
@@ -157,7 +157,7 @@ class Bunch(dict):
             >>> del b.values
             Traceback (most recent call last):
                 ...
-            AttributeError: 'Bunch' object attribute 'values' is read-only
+            AttributeError: values
             >>> del b.lol
             >>> b.lol
             Traceback (most recent call last):
@@ -180,7 +180,7 @@ class Bunch(dict):
 
             >>> b = Bunch(foo=Bunch(lol=True), hello=42, ponies='are pretty!')
             >>> b.toDict()
-            {'ponies': 'are pretty!', 'foo': {'lol': True}, 'hello': 42}
+            {'foo': {'lol': True}, 'hello': 42, 'ponies': 'are pretty!'}
 
             See unbunchify for more info.
         """
@@ -254,7 +254,7 @@ def unbunchify(x):
 
         >>> b = Bunch(foo=Bunch(lol=True), hello=42, ponies='are pretty!')
         >>> unbunchify(b)
-        {'ponies': 'are pretty!', 'foo': {'lol': True}, 'hello': 42}
+        {'foo': {'lol': True}, 'hello': 42, 'ponies': 'are pretty!'}
 
         unbunchify will handle intermediary dicts, lists and tuples (as well as
         their subclasses), but ymmv on custom datatypes.
@@ -262,8 +262,7 @@ def unbunchify(x):
         >>> b = Bunch(foo=['bar', Bunch(lol=True)], hello=42,
         ...         ponies=('are pretty!', Bunch(lies='are trouble!')))
         >>> unbunchify(b) #doctest: +NORMALIZE_WHITESPACE
-        {'ponies': ('are pretty!', {'lies': 'are trouble!'}),
-         'foo': ['bar', {'lol': True}], 'hello': 42}
+        {'foo': ['bar', {'lol': True}], 'hello': 42, 'ponies': ('are pretty!', {'lies': 'are trouble!'})}
 
         nb. As dicts are not hashable, they cannot be nested in sets/frozensets.
     """
@@ -289,9 +288,9 @@ try:
 
             >>> b = Bunch(foo=Bunch(lol=True), hello=42, ponies='are pretty!')
             >>> json.dumps(b)
-            '{"ponies": "are pretty!", "foo": {"lol": true}, "hello": 42}'
+            '{"foo": {"lol": true}, "hello": 42, "ponies": "are pretty!"}'
             >>> b.toJSON()
-            '{"ponies": "are pretty!", "foo": {"lol": true}, "hello": 42}'
+            '{"foo": {"lol": true}, "hello": 42, "ponies": "are pretty!"}'
         """
         return json.dumps(self, **options)
 
