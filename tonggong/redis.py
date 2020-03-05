@@ -3,7 +3,7 @@ from redis.lock import Lock, LockError
 
 from tonggong.hash import Hash
 
-_COUNT = 100
+_COUNT = 400
 
 
 def safe_delete_hash(conn: Redis, hash_key: str, count: int = None):
