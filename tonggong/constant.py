@@ -27,3 +27,14 @@ class TimeUnit(IntEnum):
     MONTHS = 5
     QUARTERS = 6
     YEARS = 7
+
+    def get_abbreviation(self) -> str:
+        return {
+            self.MINUTES.value: 'i',
+            self.HOURS.value: 'h',
+            self.DAYS.value: 'd',
+            self.WEEKS.value: 'w',
+            self.MONTHS.value: 'm',
+            self.QUARTERS.value: 'q',
+            self.YEARS.value: 'y'
+        }.get(self.value)
