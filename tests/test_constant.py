@@ -13,16 +13,16 @@ class BunchTestCase(unittest.TestCase):
             self.assertTrue(isinstance(name, int))
             self.assertTrue(isinstance(value, int))
 
-    def test_get_abbreviation(self):
+    def test_time_unit(self):
         test_cases = [
-            (TimeUnit.MINUTES, 'i'),
-            (TimeUnit.HOURS, 'h'),
-            (TimeUnit.DAYS, 'd'),
-            (TimeUnit.WEEKS, 'w'),
-            (TimeUnit.MONTHS, 'm'),
-            (TimeUnit.QUARTERS, 'q'),
-            (TimeUnit.YEARS, 'y')
+            (1, 'i'),
+            (2, 'h'),
+            (3, 'd'),
+            (4, 'w'),
+            (5, 'm'),
+            (6, 'q'),
+            (7, 'y')
         ]
-        for unit, expected in test_cases:
-            actual = TimeUnit.get_abbreviation(unit)
+        for value, expected in test_cases:
+            actual = TimeUnit(value).abbreviation
             self.assertEqual(expected, actual)

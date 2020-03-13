@@ -28,7 +28,14 @@ class TimeUnit(IntEnum):
     QUARTERS = 6
     YEARS = 7
 
-    @classmethod
-    def get_abbreviation(cls, value: int) -> str:
-        _map = {1: 'i', 2: 'h', 3: 'd', 4: 'w', 5: 'm', 6: 'q', 7: 'y'}
-        return _map.get(value)
+    @property
+    def abbreviation(self) -> str:
+        return {
+            self.MINUTES.value: 'i',
+            self.HOURS.value: 'h',
+            self.DAYS.value: 'd',
+            self.WEEKS.value: 'w',
+            self.MONTHS.value: 'm',
+            self.QUARTERS.value: 'q',
+            self.YEARS.value: 'y'
+        }.get(self.value)
