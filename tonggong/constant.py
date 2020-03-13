@@ -16,3 +16,14 @@ class DatabaseAdapter(IntEnum):
             (cls.MYSQL.value, 'MySQL'),
             (cls.SPARK.value, 'Spark'),
         ]
+
+
+@enum.unique
+class TimeUnit(IntEnum):
+    MINUTES = 1
+    HOURS = 2
+    DAYS = 3
+    WEEKS = 4
+    MONTHS = 5
+    QUARTERS = 6
+    YEARS = 7
