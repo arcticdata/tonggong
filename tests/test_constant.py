@@ -24,5 +24,5 @@ class BunchTestCase(unittest.TestCase):
             (7, 'y')
         ]
         for value, expected in test_cases:
-            actual = TimeUnit(value).abbreviation
+            actual = TimeUnit(value).get_abbreviation()
             self.assertEqual(expected, actual)
