@@ -12,8 +12,8 @@ class Generator(object):
     @staticmethod
     def pincode(length: int = 6) -> str:
         max_int = 10 ** length - 1
-        return '{:0{length}d}'.format(random.randint(1, max_int), length=length)
+        return "{:0{length}d}".format(random.randint(1, max_int), length=length)
 
     @staticmethod
     def phone() -> str:
-        return '1{:010d}'.format(random.randint(1, 9999999999))
+        return "1{:010d}".format(random.randint(1, 9999999999))

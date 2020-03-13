@@ -200,8 +200,8 @@ class Bunch(dict):
         """
         keys = list(dict.keys(self))
         keys.sort()
-        args = ', '.join(['%s=%r' % (key, self[key]) for key in keys])
-        return '%s(%s)' % (self.__class__.__name__, args)
+        args = ", ".join(["%s=%r" % (key, self[key]) for key in keys])
+        return "%s(%s)" % (self.__class__.__name__, args)
 
     @staticmethod
     def fromDict(d):
@@ -222,6 +222,7 @@ class Bunch(dict):
 #
 # Should you disagree, it is not difficult to duplicate this function with
 # more aggressive coercion to suit your own purposes.
+
 
 def bunchify(x):
     """ Recursively transforms a dictionary into a Bunch via copy.
@@ -296,7 +297,6 @@ try:
     import yaml
     from yaml.representer import Representer, SafeRepresenter
 
-
     def from_yaml(loader, node):
         """ PyYAML support for Bunches using the tag `!bunch` and `!bunch.Bunch`.
 
@@ -320,7 +320,6 @@ try:
         value = loader.construct_mapping(node)
         data.update(value)
 
-
     def to_yaml_safe(dumper, data):
         """ Converts Bunch to a normal mapping node, making it appear as a
             dict in the YAML output.
@@ -332,7 +331,6 @@ try:
         """
         return dumper.represent_dict(data)
 
-
     def to_yaml(dumper, data):
         """ Converts Bunch to a representation node.
 
@@ -341,18 +339,16 @@ try:
             >>> yaml.dump(b, default_flow_style=True)
             '!bunch.Bunch {foo: [bar, !bunch.Bunch {lol: true}], hello: 42}\\n'
         """
-        return dumper.represent_mapping('!bunch.Bunch', data)
+        return dumper.represent_mapping("!bunch.Bunch", data)
 
-
-    yaml.add_constructor('!bunch', from_yaml)
-    yaml.add_constructor('!bunch.Bunch', from_yaml)
+    yaml.add_constructor("!bunch", from_yaml)
+    yaml.add_constructor("!bunch.Bunch", from_yaml)
 
     SafeRepresenter.add_representer(Bunch, to_yaml_safe)
     SafeRepresenter.add_multi_representer(Bunch, to_yaml_safe)
 
     Representer.add_representer(Bunch, to_yaml)
     Representer.add_multi_representer(Bunch, to_yaml)
-
 
     # Instance methods for YAML conversion
     def toYAML(self, **options):
@@ -372,15 +368,13 @@ try:
         """
         opts = dict(indent=4, default_flow_style=False)
         opts.update(options)
-        if 'Dumper' not in opts:
+        if "Dumper" not in opts:
             return yaml.safe_dump(self, **opts)
         else:
             return yaml.dump(self, **opts)
 
-
     def fromYAML(*args, **kwargs):
         return bunchify(yaml.load(*args, **kwargs))
-
 
     Bunch.toYAML = toYAML
     Bunch.fromYAML = staticmethod(fromYAML)

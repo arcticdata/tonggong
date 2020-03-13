@@ -9,7 +9,7 @@ _COUNT = 400
 def safe_delete_hash(conn: Redis, hash_key: str, count: int = None):
     if not conn.exists(hash_key):
         return
-    new_key = 'gc:hash:{}'.format(Hash.md5(hash_key))
+    new_key = "gc:hash:{}".format(Hash.md5(hash_key))
     conn.rename(hash_key, new_key)
     cursor = 0
     count = count or _COUNT
@@ -25,7 +25,7 @@ def safe_delete_hash(conn: Redis, hash_key: str, count: int = None):
 def safe_delete_list(conn: Redis, list_key: str):
     if not conn.exists(list_key):
         return
-    new_key = 'gc:list:{}'.format(Hash.md5(list_key))
+    new_key = "gc:list:{}".format(Hash.md5(list_key))
     conn.rename(list_key, new_key)
     while conn.llen(new_key):
         conn.ltrim(new_key, 0, -99)
@@ -35,7 +35,7 @@ def safe_delete_list(conn: Redis, list_key: str):
 def safe_delete_set(conn: Redis, set_key: str, count: int = None):
     if not conn.exists(set_key):
         return
-    new_key = 'gc:set:{}'.format(Hash.md5(set_key))
+    new_key = "gc:set:{}".format(Hash.md5(set_key))
     conn.rename(set_key, new_key)
     cursor = 0
     count = count or _COUNT
@@ -51,7 +51,7 @@ def safe_delete_set(conn: Redis, set_key: str, count: int = None):
 def safe_delete_sorted_set(conn: Redis, sorted_set_key: str):
     if not conn.exists(sorted_set_key):
         return
-    new_key = 'gc:zset:{}'.format(Hash.md5(sorted_set_key))
+    new_key = "gc:zset:{}".format(Hash.md5(sorted_set_key))
     conn.rename(sorted_set_key, new_key)
     while conn.zcard(new_key):
         conn.zremrangebyrank(new_key, 0, 100)
@@ -59,13 +59,26 @@ def safe_delete_sorted_set(conn: Redis, sorted_set_key: str):
 
 
 class RedisLock(Lock):
-    def __init__(self, conn: Redis, name: str,
-                 timeout=None, sleep=0.1, blocking=True, blocking_timeout=None, thread_local=True):
-        name = 'redis-lock:{}'.format(name)
+    def __init__(
+        self,
+        conn: Redis,
+        name: str,
+        timeout=None,
+        sleep=0.1,
+        blocking=True,
+        blocking_timeout=None,
+        thread_local=True,
+    ):
+        name = "redis-lock:{}".format(name)
         super(RedisLock, self).__init__(
-            conn, name,
-            timeout=timeout, sleep=sleep,
-            blocking=blocking, blocking_timeout=blocking_timeout, thread_local=thread_local)
+            conn,
+            name,
+            timeout=timeout,
+            sleep=sleep,
+            blocking=blocking,
+            blocking_timeout=blocking_timeout,
+            thread_local=thread_local,
+        )
         self._acquired = False
 
     def __enter__(self):
