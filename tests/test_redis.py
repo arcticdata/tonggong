@@ -6,7 +6,11 @@ import redis
 from tonggong.generator import Generator
 from tonggong.hash import Hash
 from tonggong.redis import (
-    RedisLock, safe_delete_hash, safe_delete_list, safe_delete_set, safe_delete_sorted_set
+    RedisLock,
+    safe_delete_hash,
+    safe_delete_list,
+    safe_delete_set,
+    safe_delete_sorted_set,
 )
 
 
@@ -21,7 +25,7 @@ class RedisTestCase(unittest.TestCase):
         self.assertEqual(self.conn.hlen(key), 10000)
         safe_delete_hash(self.conn, key)
         self.assertFalse(self.conn.exists(key))
-        self.assertFalse(self.conn.exists('gc:hash:{}'.format(Hash.md5(key))))
+        self.assertFalse(self.conn.exists("gc:hash:{}".format(Hash.md5(key))))
 
     def test_safe_delete_list(self):
         key = Generator.uuid4()
@@ -29,7 +33,7 @@ class RedisTestCase(unittest.TestCase):
         self.assertEqual(self.conn.llen(key), 10000)
         safe_delete_list(self.conn, key)
         self.assertFalse(self.conn.exists(key))
-        self.assertFalse(self.conn.exists('gc:list:{}'.format(Hash.md5(key))))
+        self.assertFalse(self.conn.exists("gc:list:{}".format(Hash.md5(key))))
 
     def test_safe_delete_set(self):
         key = Generator.uuid4()
@@ -37,16 +41,16 @@ class RedisTestCase(unittest.TestCase):
         self.assertEqual(self.conn.scard(key), 10000)
         safe_delete_set(self.conn, key)
         self.assertFalse(self.conn.exists(key))
-        self.assertFalse(self.conn.exists('gc:set:{}'.format(Hash.md5(key))))
+        self.assertFalse(self.conn.exists("gc:set:{}".format(Hash.md5(key))))
 
     def test_safe_delete_sorted_set(self):
         key = Generator.uuid4()
-        mapping = {i: '{}'.format(i) for i in range(10000)}
+        mapping = {i: "{}".format(i) for i in range(10000)}
         self.conn.zadd(key, mapping)
         self.assertEqual(self.conn.zcard(key), 10000)
         safe_delete_sorted_set(self.conn, key)
         self.assertFalse(self.conn.exists(key))
-        self.assertFalse(self.conn.exists('gc:zset:{}'.format(Hash.md5(key))))
+        self.assertFalse(self.conn.exists("gc:zset:{}".format(Hash.md5(key))))
 
     def test_redis_lock(self):
         lock_key = Generator.uuid4()

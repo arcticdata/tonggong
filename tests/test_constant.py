@@ -15,13 +15,13 @@ class BunchTestCase(unittest.TestCase):
 
     def test_time_unit(self):
         test_cases = [
-            (1, 'i'),
-            (2, 'h'),
-            (3, 'd'),
-            (4, 'w'),
-            (5, 'm'),
-            (6, 'q'),
-            (7, 'y')
+            (1, "i"),
+            (2, "h"),
+            (3, "d"),
+            (4, "w"),
+            (5, "m"),
+            (6, "q"),
+            (7, "y"),
         ]
         for value, expected in test_cases:
             actual = TimeUnit(value).get_abbreviation()
