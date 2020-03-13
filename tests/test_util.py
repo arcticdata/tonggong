@@ -1,7 +1,7 @@
 import base64
 import unittest
 
-from tonggong.util import padding_base64
+from tonggong.util import json_dumps, padding_base64
 
 
 class UtilTestCase(unittest.TestCase):
@@ -17,3 +17,14 @@ class UtilTestCase(unittest.TestCase):
             self.assertEqual(encoded_with_padding, actual)
             actual = base64.b64decode(actual)
             self.assertEqual(decoded, actual)
+
+    def test_json_dumps(self):
+        cases = [
+            (66, '66'),
+            ([1, 2], '[1,2]'),
+            ({1: 1}, '{"1":1}'),
+            ({'a': 'a'}, '{"a":"a"}'),
+        ]
+        for _obj, expected in cases:
+            actual = json_dumps(_obj)
+            self.assertEqual(actual, expected)
