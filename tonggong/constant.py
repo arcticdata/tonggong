@@ -20,9 +20,9 @@ class DatabaseAdapter(IntEnum):
 
 @enum.unique
 class TimeUnit(IntEnum):
-    HOURLY = 0
-    DAILY = 1
-    WEEKLY = 2
-    MONTHLY = 3
-    QUARTERLY = 4
-    YEARLY = 5
+    HOURS = 0
+    DAYS = 1
+    WEEKS = 2
+    MONTHS = 3
+    QUARTERS = 4
+    YEARS = 5
