@@ -1,3 +1,5 @@
+import calendar
+import datetime
 import json
 
 
@@ -17,3 +19,22 @@ def json_dumps(
         ensure_ascii=ensure_ascii,
         **kwargs
     )
+
+
+def add_months(date: datetime.date, num: int) -> datetime.date:
+    month = date.month - 1 + num
+    year = date.year + month // 12
+    month = month % 12 + 1
+    day = min(date.day, calendar.monthrange(year, month)[1])
+    return datetime.date(year, month, day)
+
+
+def minus_months(date: datetime.date, num: int) -> datetime.date:
+    year = date.year - num // 12
+    if num % 12 >= date.month:
+        year = year - 1
+        month = date.month + 12 - num % 12
+    else:
+        month = date.month - num % 12
+    day = min(date.day, calendar.monthrange(year, month)[1])
+    return datetime.date(year=year, month=month, day=day)
