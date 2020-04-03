@@ -1,7 +1,8 @@
 import base64
+import datetime
 import unittest
 
-from tonggong.util import json_dumps, padding_base64
+from tonggong.util import add_months, json_dumps, minus_months, padding_base64
 
 
 class UtilTestCase(unittest.TestCase):
@@ -36,3 +37,28 @@ class UtilTestCase(unittest.TestCase):
         for _obj, expected in cases:
             actual = json_dumps(_obj)
             self.assertEqual(actual, expected)
+
+    def test_add_months(self):
+        cases = [
+            (datetime.date(2020, 1, 1), 2, datetime.date(2020, 3, 1)),
+            (datetime.date(2020, 1, 29), 1, datetime.date(2020, 2, 29)),
+            (datetime.date(2019, 1, 29), 1, datetime.date(2019, 2, 28)),
+            (datetime.date(2020, 1, 1), 13, datetime.date(2021, 2, 1)),
+            (datetime.date(2015, 12, 31), 12, datetime.date(2016, 12, 31)),
+        ]
+        for origin_date, num, expected in cases:
+            actual = add_months(origin_date, num)
+            self.assertEqual(expected, actual)
+
+    def test_minus_months(self):
+        cases = [
+            (datetime.date(2020, 1, 1), 2, datetime.date(2019, 11, 1)),
+            (datetime.date(2020, 2, 2), 1, datetime.date(2020, 1, 2)),
+            (datetime.date(2020, 3, 29), 1, datetime.date(2020, 2, 29)),
+            (datetime.date(2019, 3, 29), 1, datetime.date(2019, 2, 28)),
+            (datetime.date(2020, 1, 1), 13, datetime.date(2018, 12, 1)),
+            (datetime.date(2015, 12, 31), 12, datetime.date(2014, 12, 31)),
+        ]
+        for origin_date, num, expected in cases:
+            actual = minus_months(origin_date, num)
+            self.assertEqual(expected, actual)
