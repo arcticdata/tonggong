@@ -25,14 +25,8 @@ class HashTestCase(unittest.TestCase):
 
     def test_sha256(self):
         test_cases = [
-            (
-                "7509e5bda0c762d2bac7f90d758b5b2263fa01ccbc542ab5e3df163be08e6ca9",
-                "hello world!",
-            ),
-            (
-                "9fcfd162cd418ba1c19c560c78ae238a2722a0f474dc4b8be3bef420490f777f",
-                "https://datarc.cn/",
-            ),
+            ("7509e5bda0c762d2bac7f90d758b5b2263fa01ccbc542ab5e3df163be08e6ca9", "hello world!"),
+            ("9fcfd162cd418ba1c19c560c78ae238a2722a0f474dc4b8be3bef420490f777f", "https://datarc.cn/"),
         ]
         for expected, case in test_cases:
             actual = Hash.sha256(case)

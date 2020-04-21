@@ -45,26 +45,17 @@ class Week(namedtuple("Week", ("year", "week"))):
         """
         if ordinal < 1:
             raise ValueError("ordinal must be >= 1")
-        return super(Week, cls).__new__(
-            cls, *(date.fromordinal((ordinal - 1) * 7 + 1).isocalendar()[:2])
-        )
+        return super(Week, cls).__new__(cls, *(date.fromordinal((ordinal - 1) * 7 + 1).isocalendar()[:2]))
 
     @classmethod
     def fromstring(cls, isostring):
         """Return a week initialized from an ISO formatted string like "2011W08" or "2011-W08"."""
         if isinstance(isostring, str) and len(isostring) == 7 and isostring[4] == "W":
             return cls(int(isostring[0:4]), int(isostring[5:7]))
-        elif (
-            isinstance(isostring, str)
-            and len(isostring) == 8
-            and isostring[4:6] == "-W"
-        ):
+        elif isinstance(isostring, str) and len(isostring) == 8 and isostring[4:6] == "-W":
             return cls(int(isostring[0:4]), int(isostring[6:8]))
         else:
-            raise ValueError(
-                "Week.tostring argument must be on the form <yyyy>W<ww>; got %r"
-                % (isostring,)
-            )
+            raise ValueError("Week.tostring argument must be on the form <yyyy>W<ww>; got %r" % (isostring,))
 
     @classmethod
     def withdate(cls, date):
@@ -143,9 +134,7 @@ class Week(namedtuple("Week", ("year", "week"))):
 
     def replace(self, year=None, week=None):
         """Return a Week with either the year or week attribute value replaced"""
-        return self.__class__(
-            self.year if year is None else year, self.week if week is None else week
-        )
+        return self.__class__(self.year if year is None else year, self.week if week is None else week)
 
     def year_week(self):
         """Return a regular tuple containing the (year, week)"""

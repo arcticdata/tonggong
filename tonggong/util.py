@@ -1,6 +1,7 @@
 import calendar
 import datetime
 import json
+import logging
 
 
 def padding_base64(base64_str: str) -> str:
@@ -9,16 +10,8 @@ def padding_base64(base64_str: str) -> str:
     return base64_str + "=" * num
 
 
-def json_dumps(
-    obj, separators=(",", ":"), sort_keys=True, ensure_ascii=False, **kwargs
-) -> str:
-    return json.dumps(
-        obj,
-        separators=separators,
-        sort_keys=sort_keys,
-        ensure_ascii=ensure_ascii,
-        **kwargs
-    )
+def json_dumps(obj, separators=(",", ":"), sort_keys=True, ensure_ascii=False, **kwargs) -> str:
+    return json.dumps(obj, separators=separators, sort_keys=sort_keys, ensure_ascii=ensure_ascii, **kwargs)
 
 
 def add_months(date: datetime.date, num: int) -> datetime.date:
@@ -38,3 +31,23 @@ def minus_months(date: datetime.date, num: int) -> datetime.date:
         month = date.month - num % 12
     day = min(date.day, calendar.monthrange(year, month)[1])
     return datetime.date(year=year, month=month, day=day)
+
+
+def prevent_django_request_warnings(original_func):
+    """
+    add this decorator can prevent the django request class from throwing warnings.
+    """
+
+    def new_func(*args, **kwargs):
+        # raise logging level to ERROR
+        logger = logging.getLogger("django.request")
+        previous_logging_level = logger.getEffectiveLevel()
+        logger.setLevel(logging.ERROR)
+
+        # trigger original function that would throw warning
+        original_func(*args, **kwargs)
+
+        # lower logging level back to previous
+        logger.setLevel(previous_logging_level)
+
+    return new_func

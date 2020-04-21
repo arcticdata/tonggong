@@ -1,8 +1,15 @@
 import base64
 import datetime
+import logging
 import unittest
 
-from tonggong.util import add_months, json_dumps, minus_months, padding_base64
+from tonggong.util import (
+    add_months,
+    json_dumps,
+    minus_months,
+    padding_base64,
+    prevent_django_request_warnings,
+)
 
 
 class UtilTestCase(unittest.TestCase):
@@ -10,16 +17,8 @@ class UtilTestCase(unittest.TestCase):
         # reference: https://en.wikipedia.org/wiki/Base64
         cases = [
             ("YW55IGNhcm5hbCBwbGVhcw", "YW55IGNhcm5hbCBwbGVhcw==", b"any carnal pleas"),
-            (
-                "YW55IGNhcm5hbCBwbGVhc3U",
-                "YW55IGNhcm5hbCBwbGVhc3U=",
-                b"any carnal pleasu",
-            ),
-            (
-                "YW55IGNhcm5hbCBwbGVhc3Vy",
-                "YW55IGNhcm5hbCBwbGVhc3Vy",
-                b"any carnal pleasur",
-            ),
+            ("YW55IGNhcm5hbCBwbGVhc3U", "YW55IGNhcm5hbCBwbGVhc3U=", b"any carnal pleasu"),
+            ("YW55IGNhcm5hbCBwbGVhc3Vy", "YW55IGNhcm5hbCBwbGVhc3Vy", b"any carnal pleasur"),
         ]
         for encoded, encoded_with_padding, decoded in cases:
             actual = padding_base64(encoded)
@@ -62,3 +61,8 @@ class UtilTestCase(unittest.TestCase):
         for origin_date, num, expected in cases:
             actual = minus_months(origin_date, num)
             self.assertEqual(expected, actual)
+
+    @prevent_django_request_warnings
+    def test_prevent_django_request_warnings(self):
+        logger = logging.getLogger("django.request")
+        self.assertEqual(logging.ERROR, logger.getEffectiveLevel())

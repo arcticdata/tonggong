@@ -35,16 +35,12 @@ class Converter(object):
         return float(value)
 
     @classmethod
-    def get_decimal(
-        cls, value, decimal_places=2, rounding=decimal.ROUND_HALF_UP
-    ) -> Union[decimal.Decimal, None]:
+    def get_decimal(cls, value, decimal_places=2, rounding=decimal.ROUND_HALF_UP) -> Union[decimal.Decimal, None]:
         value = cls.get_float(value)
         if value is None:
             return None
         quantize = ".{}1".format("0" * (decimal_places - 1))
-        return decimal.Decimal(value).quantize(
-            decimal.Decimal(quantize), rounding=rounding
-        )
+        return decimal.Decimal(value).quantize(decimal.Decimal(quantize), rounding=rounding)
 
     @classmethod
     def get_latitude_or_longitude(cls, value) -> Union[decimal.Decimal, None]:
