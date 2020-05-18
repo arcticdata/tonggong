@@ -15,6 +15,7 @@ class BunchTestCase(unittest.TestCase):
 
     def test_time_unit(self):
         test_cases = [
+            (8, "s"),
             (1, "i"),
             (2, "h"),
             (3, "d"),
