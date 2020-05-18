@@ -20,6 +20,7 @@ class DatabaseAdapter(IntEnum):
 
 @enum.unique
 class TimeUnit(IntEnum):
+    SECONDS = 8
     MINUTES = 1
     HOURS = 2
     DAYS = 3
@@ -30,6 +31,7 @@ class TimeUnit(IntEnum):
 
     def get_abbreviation(self) -> str:
         return {
+            self.SECONDS.value: "s",
             self.MINUTES.value: "i",
             self.HOURS.value: "h",
             self.DAYS.value: "d",
