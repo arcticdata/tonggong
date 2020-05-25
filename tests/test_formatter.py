@@ -260,3 +260,36 @@ class TableFormatterTestCase(unittest.TestCase):
         for case, expected in test_cases:
             actual = TableFormatter.float(case)
             self.assertEqual(expected, actual)
+
+    def test_ordered_day(self):
+        test_cases = [
+            (1, "第1天"),
+            (2, "第2天"),
+        ]
+        for case, expected in test_cases:
+            actual = Formatter.orderedDay(case)
+            self.assertEqual(expected, actual)
+
+    def test_ordered_week(self):
+        test_cases = [
+            (1, "第1周"),
+            (2, "第2周"),
+        ]
+        for case, expected in test_cases:
+            actual = Formatter.orderedWeek(case)
+            self.assertEqual(expected, actual)
+
+    def test_ordered_month(self):
+        test_cases = [(1, "1月"), (2, "2月"), (12, "12月")]
+        for case, expected in test_cases:
+            actual = Formatter.orderedMonth(case)
+            self.assertEqual(expected, actual)
+
+    def test_ordered_quarter(self):
+        test_cases = [
+            (1, "1季度"),
+            (2, "2季度"),
+        ]
+        for case, expected in test_cases:
+            actual = Formatter.orderedQuarter(case)
+            self.assertEqual(expected, actual)

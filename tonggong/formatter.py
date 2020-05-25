@@ -74,6 +74,22 @@ class Formatter(object):
             return "{}亿".format(number / _num)
         return str(number)
 
+    @classmethod
+    def orderedDay(cls, number: int) -> str:
+        return f"第{number}天"
+
+    @classmethod
+    def orderedWeek(cls, number: int) -> str:
+        return f"第{number}周"
+
+    @classmethod
+    def orderedMonth(cls, number: int) -> str:
+        return f"{number}月"
+
+    @classmethod
+    def orderedQuarter(cls, number: int) -> str:
+        return f"{number}季度"
+
 
 class YAxisFormatter(Formatter):
     @classmethod
