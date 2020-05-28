@@ -294,7 +294,7 @@ class TableFormatterTestCase(unittest.TestCase):
             actual = Formatter.orderedQuarter(case)
             self.assertEqual(expected, actual)
 
-    def test_hourOutsideYear(self):
+    def test_hour(self):
         test_cases = [
             (datetime.datetime(2020, 1, 1, 1, 1), "2020-01-01 01点"),
             (datetime.datetime(2020, 1, 1, 13, 1), "2020-01-01 13点"),
