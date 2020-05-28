@@ -40,19 +40,7 @@ class Formatter(object):
         return str(int(value))
 
     @classmethod
-    def hourWithinDay(cls, value: datetime.datetime) -> str:
-        return value.strftime("%H点")
-
-    @classmethod
-    def hourWithinMonth(cls, value: datetime.datetime) -> str:
-        return value.strftime("%d %H点")
-
-    @classmethod
-    def hourWithinYear(cls, value: datetime.datetime) -> str:
-        return value.strftime("%m-%d %H点")
-
-    @classmethod
-    def hourOutsideYear(cls, value: datetime.datetime) -> str:
+    def hour(cls, value: datetime.datetime) -> str:
         return value.strftime("%Y-%m-%d %H点")
 
     @classmethod
