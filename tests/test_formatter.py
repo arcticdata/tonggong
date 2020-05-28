@@ -296,11 +296,11 @@ class TableFormatterTestCase(unittest.TestCase):
 
     def test_hour(self):
         test_cases = [
-            (datetime.datetime(2020, 1, 1, 1, 1), "2020-01-01 01点"),
+            (datetime.datetime(2020, 1, 1, 1, 1), "2020-01-01 1点"),
             (datetime.datetime(2020, 1, 1, 13, 1), "2020-01-01 13点"),
             (datetime.datetime(2020, 1, 1, 19, 1), "2020-01-01 19点"),
             (datetime.datetime(2020, 1, 31, 19, 1), "2020-01-31 19点"),
             (datetime.datetime(2020, 12, 31, 19, 1), "2020-12-31 19点"),
         ]
         for case, expected in test_cases:
-            self.assertEqual(expected, Formatter.hour(case))
+            self.assertEqual(expected, Formatter.hour(case.date(), case.hour))
