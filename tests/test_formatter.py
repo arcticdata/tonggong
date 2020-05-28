@@ -301,8 +301,10 @@ class TableFormatterTestCase(unittest.TestCase):
             (datetime.datetime(2020, 1, 1, 13, 1), "13点"),
             (datetime.datetime(2020, 1, 1, 19, 1), "19点"),
         ]
+        _start = datetime.datetime(2020, 1, 1)
+        _end = datetime.datetime(2020, 1, 1)
         for case, expected in test_cases:
-            self.assertEqual(expected, Formatter.hourWithinDay(case))
+            self.assertEqual(expected, Formatter.hour(case, _start, _end))
 
     def test_hourWithinMonth(self):
         test_cases = [
@@ -311,8 +313,10 @@ class TableFormatterTestCase(unittest.TestCase):
             (datetime.datetime(2020, 1, 1, 19, 1), "01 19点"),
             (datetime.datetime(2020, 1, 31, 19, 1), "31 19点"),
         ]
+        _start = datetime.datetime(2020, 1, 1)
+        _end = datetime.datetime(2020, 1, 30)
         for case, expected in test_cases:
-            self.assertEqual(expected, Formatter.hourWithinMonth(case))
+            self.assertEqual(expected, Formatter.hour(case, _start, _end))
 
     def test_hourWithinYear(self):
         test_cases = [
@@ -322,8 +326,10 @@ class TableFormatterTestCase(unittest.TestCase):
             (datetime.datetime(2020, 1, 31, 19, 1), "01-31 19点"),
             (datetime.datetime(2020, 12, 31, 19, 1), "12-31 19点"),
         ]
+        _start = datetime.datetime(2020, 1, 1)
+        _end = datetime.datetime(2020, 12, 30)
         for case, expected in test_cases:
-            self.assertEqual(expected, Formatter.hourWithinYear(case))
+            self.assertEqual(expected, Formatter.hour(case, _start, _end))
 
     def test_hourOutsideYear(self):
         test_cases = [
@@ -333,5 +339,7 @@ class TableFormatterTestCase(unittest.TestCase):
             (datetime.datetime(2020, 1, 31, 19, 1), "2020-01-31 19点"),
             (datetime.datetime(2020, 12, 31, 19, 1), "2020-12-31 19点"),
         ]
+        _start = datetime.datetime(2020, 1, 1)
+        _end = datetime.datetime(2018, 12, 30)
         for case, expected in test_cases:
-            self.assertEqual(expected, Formatter.hourOutsideYear(case))
+            self.assertEqual(expected, Formatter.hour(case, _start, _end))

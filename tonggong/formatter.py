@@ -40,20 +40,19 @@ class Formatter(object):
         return str(int(value))
 
     @classmethod
-    def hourWithinDay(cls, value: datetime.datetime) -> str:
-        return value.strftime("%H点")
-
-    @classmethod
-    def hourWithinMonth(cls, value: datetime.datetime) -> str:
-        return value.strftime("%d %H点")
-
-    @classmethod
-    def hourWithinYear(cls, value: datetime.datetime) -> str:
-        return value.strftime("%m-%d %H点")
-
-    @classmethod
-    def hourOutsideYear(cls, value: datetime.datetime) -> str:
-        return value.strftime("%Y-%m-%d %H点")
+    def hour(cls, value: datetime.datetime, start: datetime.datetime, end: datetime.datetime) -> str:
+        # 一天内
+        if start.date() == end.date():
+            return value.strftime("%H点")
+        # 一月内
+        elif start.year == end.year and start.month == end.month:
+            return value.strftime("%d %H点")
+        # 一年内
+        elif start.year == end.year:
+            return value.strftime("%m-%d %H点")
+        # 超过一年
+        else:
+            return value.strftime("%Y-%m-%d %H点")
 
     @classmethod
     def date(cls, value: Union[str, datetime.date, datetime.datetime]) -> str:
