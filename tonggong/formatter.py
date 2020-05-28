@@ -40,8 +40,8 @@ class Formatter(object):
         return str(int(value))
 
     @classmethod
-    def hour(cls, value: datetime.datetime) -> str:
-        return value.strftime("%Y-%m-%d %H点")
+    def hour(cls, _date, _hour) -> str:
+        return f"{_date} {_hour}点"
 
     @classmethod
     def date(cls, value: Union[str, datetime.date, datetime.datetime]) -> str:
