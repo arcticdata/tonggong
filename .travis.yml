@@ -10,7 +10,8 @@ services:
 
 install:
   - pip install black
-  - pip install pytest pytest-cov codecov
+  - pip install pytest==5.4.3
+  - pip install pytest-cov codecov
   - pip install redis pyyaml
 
 script:
