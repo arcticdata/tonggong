@@ -1,13 +1,24 @@
+import base64
 import calendar
 import datetime
 import json
 import logging
 
 
-def padding_base64(base64_str: str) -> str:
-    num = len(base64_str) % 4
+def base64_encode(value: str) -> str:
+    """ 对字符串进行 base64 编码， 去掉末尾的 = """
+    return base64.b64encode(value.encode("utf8")).decode("utf8").rstrip("=")
+
+
+def base64_decode(value: str) -> str:
+    """ 对字符串进行 base64 解码 """
+    return base64.b64decode(padding_base64(value)).decode("utf8")
+
+
+def padding_base64(value: str) -> str:
+    num = len(value) % 4
     num = 4 - num if num else 0
-    return base64_str + "=" * num
+    return value + "=" * num
 
 
 def json_dumps(obj, separators=(",", ":"), sort_keys=True, ensure_ascii=False, **kwargs) -> str:

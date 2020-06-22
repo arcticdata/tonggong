@@ -5,6 +5,8 @@ import unittest
 
 from tonggong.util import (
     add_months,
+    base64_decode,
+    base64_encode,
     json_dumps,
     minus_months,
     padding_base64,
@@ -13,6 +15,17 @@ from tonggong.util import (
 
 
 class UtilTestCase(unittest.TestCase):
+    def test_base64_encode_and_decode(self):
+        cases = [
+            ("hello", "aGVsbG8"),
+            ("any carnal pleas", "YW55IGNhcm5hbCBwbGVhcw"),
+        ]
+        for value, encode_value in cases:
+            actual = base64_encode(value)
+            self.assertEqual(encode_value, actual)
+            actual = base64_decode(actual)
+            self.assertEqual(value, actual)
+
     def test_padding_base64(self):
         # reference: https://en.wikipedia.org/wiki/Base64
         cases = [
