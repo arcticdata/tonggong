@@ -1,6 +1,8 @@
 import datetime
 from typing import Union
 
+_NUMBER_TYPE = Union[float, int, str]
+
 _special_characters = """!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏·° \t\n\r\v\f"""
 _translator = str.maketrans("", "", _special_characters)
 
@@ -69,7 +71,7 @@ class Formatter(object):
         return "{}年".format(_year)
 
     @classmethod
-    def chinese_number(cls, number: Union[str, float, int]) -> str:
+    def chinese_number(cls, number: _NUMBER_TYPE) -> str:
         """ 数字的中文展示 """
         if isinstance(number, str):
             number = float(number)
