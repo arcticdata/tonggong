@@ -69,7 +69,7 @@ class Formatter(object):
         return "{}年".format(_year)
 
     @classmethod
-    def chinese_number(cls, number: Union[str, float]) -> str:
+    def chinese_number(cls, number: Union[str, float, int]) -> str:
         """ 数字的中文展示 """
         if isinstance(number, str):
             number = float(number)
