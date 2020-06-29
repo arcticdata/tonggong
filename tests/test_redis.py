@@ -21,7 +21,7 @@ class RedisTestCase(unittest.TestCase):
     def test_safe_delete_hash(self):
         key = Generator.uuid4()
         mapping = {format(i): i for i in range(10000)}
-        self.conn.hmset(key, mapping)
+        self.conn.hset(key, mapping=mapping)
         self.assertEqual(self.conn.hlen(key), 10000)
         safe_delete_hash(self.conn, key)
         self.assertFalse(self.conn.exists(key))
