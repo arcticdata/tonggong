@@ -70,6 +70,4 @@ def is_int(num: Union[str, float]) -> bool:
         if "." not in num:
             return True
         num = float(num)
-    if abs(round(num) - num) <= 1e-5:
-        return True
-    return False
+    return abs(round(num) - num) <= 1e-5
