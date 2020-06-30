@@ -3,6 +3,7 @@ import calendar
 import datetime
 import json
 import logging
+from typing import Union
 
 
 def base64_encode(value: str) -> str:
@@ -62,3 +63,9 @@ def prevent_django_request_warnings(original_func):
         logger.setLevel(previous_logging_level)
 
     return new_func
+
+
+def is_int(num: Union[str, float]) -> bool:
+    if isinstance(num, str):
+        num = float(num)
+    return abs(round(num) - num) <= 1e-7

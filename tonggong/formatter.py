@@ -1,6 +1,8 @@
 import datetime
 from typing import Union
 
+from tonggong.util import is_int
+
 _NUMBER_TYPE = Union[float, int, str]
 
 _special_characters = """!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~！？｡＂＃＄％＆＇（）＊＋－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏·° \t\n\r\v\f"""
@@ -75,16 +77,17 @@ class Formatter(object):
         """ 数字的中文展示 """
         if isinstance(number, str):
             number = float(number)
+        number = round(number) if is_int(number) else number
         _num = 100000000
-        if not number % 100 and 10000 <= number < _num:
+        if not number % 100 and 10000 <= abs(number) < _num:
             num = number / 10000
-            num = int(num) if num == int(num) else num
+            num = round(num) if is_int(num) else num
             return f"{num}万"
-        if not number % 100000 and number >= _num:
+        if not number % 100000 and abs(number) >= _num:
             num = number / _num
-            num = int(num) if num == int(num) else num
+            num = round(num) if is_int(num) else num
             return f"{num}亿"
-        return str(int(number)) if number == int(number) else str(number)
+        return str(number)
 
     @classmethod
     def orderedDay(cls, number: int) -> str:
