@@ -67,7 +67,5 @@ def prevent_django_request_warnings(original_func):
 
 def is_int(num: Union[str, float]) -> bool:
     if isinstance(num, str):
-        if "." not in num:
-            return True
         num = float(num)
-    return abs(round(num) - num) <= 1e-5
+    return abs(round(num) - num) <= 1e-7
