@@ -1,3 +1,5 @@
+import time
+
 from redis import Redis
 from redis.lock import Lock, LockError
 
@@ -75,7 +77,8 @@ class RedisLock(Lock):
         self._acquired = False
 
     def __enter__(self):
-        self._acquired = self.acquire()
+        token = str(time.time())  # Set token to current time string
+        self._acquired = self.acquire(token=token)
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):

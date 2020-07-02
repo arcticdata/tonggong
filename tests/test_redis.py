@@ -58,6 +58,9 @@ class RedisTestCase(unittest.TestCase):
         # test non blocking
         with RedisLock(self.conn, lock_key) as one:
             self.assertTrue(one.acquired)
+            self.assertTrue(isinstance(one.local.token.decode(), str))
+            with RedisLock(self.conn, lock_key, blocking=False) as two:
+                self.assertFalse(two.acquired)
             with RedisLock(self.conn, lock_key, blocking=False) as two:
                 self.assertFalse(two.acquired)
 
