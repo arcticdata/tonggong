@@ -7,6 +7,7 @@ from tonggong.util import (
     add_months,
     base64_decode,
     base64_encode,
+    has_uri_reversed_character,
     json_dumps,
     minus_months,
     padding_base64,
@@ -79,3 +80,17 @@ class UtilTestCase(unittest.TestCase):
     def test_prevent_django_request_warnings(self):
         logger = logging.getLogger("django.request")
         self.assertEqual(logging.ERROR, logger.getEffectiveLevel())
+
+    def test_has_uri_reversed_character(self):
+        cases = [
+            ("hello/world", True),
+            ("hello world!", True),
+            ("@", True),
+            ("#_#", True),
+            ("black sheep wall;", True),
+            ("fantastic \\ tools", False),
+            ("hello-world", False),
+            ("hello world！", False),
+        ]
+        for s, expected in cases:
+            self.assertEqual(expected, has_uri_reversed_character(s))
