@@ -3,6 +3,7 @@ import calendar
 import datetime
 import json
 import logging
+import re
 from typing import Union
 
 
@@ -69,3 +70,12 @@ def is_int(num: Union[str, float]) -> bool:
     if isinstance(num, str):
         num = float(num)
     return abs(round(num) - num) <= 1e-7
+
+
+_GEN_DELIMS_REGEX = re.compile(r"[\:\/\?\#\[\]\@]")
+_SUB_DELIMS_REGEX = re.compile(r"[\!\$\&\'\(\)\*\+\,\;\=]")
+
+
+def has_uri_reversed_character(s: str) -> bool:
+    """ Ref: https://tools.ietf.org/html/rfc3986#section-2.2 """
+    return bool(_GEN_DELIMS_REGEX.search(s) or _SUB_DELIMS_REGEX.search(s))
