@@ -1,6 +1,6 @@
 # 小雅·彤弓
 
-<p align="left">
+<p style="text-align: left">
     <a href="https://pypi.python.org/pypi/tonggong">
         <img src="https://img.shields.io/pypi/v/tonggong?style=flat-square" alt="Package" />
     </a>
