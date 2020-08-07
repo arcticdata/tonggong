@@ -1,4 +1,4 @@
-from .enum import IntEnum, enum
+from .enum import IntEnum, StrEnum, enum
 
 
 @enum.unique
@@ -29,14 +29,42 @@ class TimeUnit(IntEnum):
     QUARTERS = 6
     YEARS = 7
 
-    def get_abbreviation(self) -> str:
-        return {
-            self.SECONDS.value: "s",
-            self.MINUTES.value: "i",
-            self.HOURS.value: "h",
-            self.DAYS.value: "d",
-            self.WEEKS.value: "w",
-            self.MONTHS.value: "m",
-            self.QUARTERS.value: "q",
-            self.YEARS.value: "y",
-        }.get(self.value)
+    @property
+    def abbr(self) -> str:
+        _abbr_map = {
+            self.SECONDS: "s",
+            self.MINUTES: "i",
+            self.HOURS: "h",
+            self.DAYS: "d",
+            self.WEEKS: "w",
+            self.MONTHS: "m",
+            self.QUARTERS: "q",
+            self.YEARS: "y",
+        }
+        return _abbr_map[self.value]
+
+
+@enum.unique
+class TimeUnitAbbr(StrEnum):
+    SECONDS = "s"
+    MINUTES = "i"
+    HOURS = "h"
+    DAYS = "d"
+    WEEKS = "w"
+    MONTHS = "m"
+    QUARTERS = "q"
+    YEARS = "y"
+
+    @property
+    def time_unit(self) -> TimeUnit:
+        _time_unit_map = {
+            self.SECONDS: TimeUnit.SECONDS,
+            self.MINUTES: TimeUnit.MINUTES,
+            self.HOURS: TimeUnit.HOURS,
+            self.DAYS: TimeUnit.DAYS,
+            self.WEEKS: TimeUnit.WEEKS,
+            self.MONTHS: TimeUnit.MONTHS,
+            self.QUARTERS: TimeUnit.QUARTERS,
+            self.YEARS: TimeUnit.YEARS,
+        }
+        return _time_unit_map[self.value]
