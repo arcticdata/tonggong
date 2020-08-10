@@ -6,12 +6,12 @@ from tonggong.constant import DatabaseAdapter, TimeUnit, TimeUnitAbbr
 class BunchTestCase(unittest.TestCase):
     _time_unit_map = [
         (8, "s"),
-        (1, "i"),
+        (1, "m"),
         (2, "h"),
         (3, "d"),
         (4, "w"),
-        (5, "m"),
-        (6, "q"),
+        (5, "M"),
+        (6, "Q"),
         (7, "y"),
     ]
 
