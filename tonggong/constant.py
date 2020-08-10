@@ -33,12 +33,12 @@ class TimeUnit(IntEnum):
     def abbr(self) -> str:
         _abbr_map = {
             self.SECONDS: "s",
-            self.MINUTES: "i",
+            self.MINUTES: "m",
             self.HOURS: "h",
             self.DAYS: "d",
             self.WEEKS: "w",
-            self.MONTHS: "m",
-            self.QUARTERS: "q",
+            self.MONTHS: "M",
+            self.QUARTERS: "Q",
             self.YEARS: "y",
         }
         return _abbr_map[self.value]
@@ -46,13 +46,16 @@ class TimeUnit(IntEnum):
 
 @enum.unique
 class TimeUnitAbbr(StrEnum):
+    """
+    ref: https://momentjs.com/docs/#/manipulating/add/
+    """
     SECONDS = "s"
-    MINUTES = "i"
+    MINUTES = "m"
     HOURS = "h"
     DAYS = "d"
     WEEKS = "w"
-    MONTHS = "m"
-    QUARTERS = "q"
+    MONTHS = "M"
+    QUARTERS = "Q"
     YEARS = "y"
 
     @property
