@@ -49,6 +49,7 @@ class TimeUnitAbbr(StrEnum):
     """
     ref: https://momentjs.com/docs/#/manipulating/add/
     """
+
     SECONDS = "s"
     MINUTES = "m"
     HOURS = "h"
