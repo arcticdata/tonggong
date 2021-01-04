@@ -62,7 +62,14 @@ def safe_delete_sorted_set(conn: Redis, sorted_set_key: str):
 
 class RedisLock(Lock):
     def __init__(
-        self, conn: Redis, name: str, timeout=None, sleep=0.1, blocking=True, blocking_timeout=None, thread_local=True,
+        self,
+        conn: Redis,
+        name: str,
+        timeout=None,
+        sleep=0.1,
+        blocking=True,
+        blocking_timeout=None,
+        thread_local=True,
     ):
         super(RedisLock, self).__init__(
             conn,

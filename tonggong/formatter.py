@@ -14,6 +14,10 @@ def remove_special_character(_str: str) -> str:
     return _str.translate(_translator)
 
 
+def right_single_slash(s: str) -> str:
+    return f"{s.rstrip('/')}/"
+
+
 class Formatter(object):
     @classmethod
     def money(cls, value) -> str:

@@ -7,6 +7,7 @@ from tonggong.formatter import (
     TableFormatter,
     YAxisFormatter,
     remove_special_character,
+    right_single_slash,
 )
 
 
@@ -28,6 +29,19 @@ class FormatterTestCase(unittest.TestCase):
         ]
         for case, expected in test_cases:
             actual = remove_special_character(case)
+            self.assertEqual(expected, actual)
+
+    def test_right_single_slash(self):
+        test_cases = [
+            ("https://datarc.cn////", "https://datarc.cn/"),
+            ("https://datarc.cn/", "https://datarc.cn/"),
+            ("https://datarc.cn", "https://datarc.cn/"),
+            ("//https://datarc.cn/", "//https://datarc.cn/"),
+            ("//////", "/"),
+            ("\\\\", "\\\\/"),
+        ]
+        for case, expected in test_cases:
+            actual = right_single_slash(case)
             self.assertEqual(expected, actual)
 
     def test_isoweek(self):

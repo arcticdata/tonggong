@@ -1,13 +1,13 @@
 [[source]]
 name = "pypi"
-url = "https://mirrors.cloud.tencent.com/pypi/simple/"
+url = "https://mirrors.tencent.com/pypi/simple/"
 verify_ssl = true
 
 [dev-packages]
 pytest = "*"
 pyyaml = "*"
 redis = "*"
-black = "==19.10b0"
+black = "==20.8b1"
 
 [packages]
 
