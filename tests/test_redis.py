@@ -1,3 +1,5 @@
+import os
+import signal
 import time
 import unittest
 
@@ -71,3 +73,31 @@ class RedisTestCase(unittest.TestCase):
             time.sleep(1.00001)
             with RedisLock(self.conn, lock_key, blocking=False) as two:
                 self.assertTrue(two.acquired)
+
+    def test_redis_lock_signal(self):
+        lock_key = Generator.uuid4()
+
+        class TestException(BaseException):
+            """自定义信号处理函数向外抛出的异常"""
+
+        signals = [signal.SIGTERM, signal.SIGINT]
+        for signum in signals:
+
+            def _signal_handler(_signum, _):
+                self.assertEqual(signum, _signum)
+                raise TestException
+
+            # 接管指定信号
+            old_handler = signal.signal(signum, _signal_handler)
+            try:
+                with RedisLock(self.conn, lock_key, timeout=100) as one:
+                    self.assertTrue(one.acquired)
+                    os.kill(os.getpid(), signum)
+                    time.sleep(1000000)
+            except BaseException as e:
+                self.assertIsInstance(e, TestException)
+            # 还原指定信号
+            signal.signal(signum, old_handler)
+
+        with RedisLock(self.conn, lock_key, timeout=100) as two:
+            self.assertTrue(two.acquired)
