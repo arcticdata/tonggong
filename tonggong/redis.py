@@ -1,3 +1,5 @@
+import os
+import signal
 import time
 
 from redis import Redis
@@ -81,17 +83,25 @@ class RedisLock(Lock):
             thread_local=thread_local,
         )
         self._acquired = False
+        self._prev_sigint = None
+        self._prev_sigterm = None
 
     def __enter__(self):
         token = str(time.time())  # Set token to current time string
         self._acquired = self.acquire(token=token)
+        self._register_signal_handler()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        try:
-            super(RedisLock, self).release()
-        except LockError:  # 可能锁已经自动失效释放，忽略 LockError
-            pass
+        self.release()
+        self._restore_signal_handler()
+
+    def _signal_handler(self, signum, frame):
+        """信号处理函数，保证退出前释放锁"""
+        self.release()
+        self._restore_signal_handler()
+        # 继续向外发送信号
+        os.kill(os.getpid(), signum)
 
     @property
     def acquired(self) -> bool:
@@ -101,3 +111,21 @@ class RedisLock(Lock):
     def get_key_name(cls, name: str) -> str:
         """ Get Redis lock key name """
         return f"redis-lock:{name}"
+
+    def release(self):
+        try:
+            super(RedisLock, self).release()
+        except LockError:  # 可能锁已经自动失效释放，忽略 LockError
+            pass
+
+    def _register_signal_handler(self):
+        """接管信号处理函数"""
+        self._prev_sigint = signal.signal(signal.SIGINT, self._signal_handler)
+        self._prev_sigterm = signal.signal(signal.SIGTERM, self._signal_handler)
+
+    def _restore_signal_handler(self):
+        """还原信号处理函数"""
+        if self._prev_sigint is not None:
+            signal.signal(signal.SIGINT, self._prev_sigint)
+        if self._prev_sigterm is not None:
+            signal.signal(signal.SIGTERM, self._prev_sigterm)
