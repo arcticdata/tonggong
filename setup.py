@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 setup(
     name="tonggong",
-    version="0.1.29",
+    version="0.1.30",
     description="Universal toolkit",
     long_description=description,
     long_description_content_type="text/markdown",
