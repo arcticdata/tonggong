@@ -1,3 +1,5 @@
+import os
+import signal
 import time
 import unittest
 
@@ -71,3 +73,39 @@ class RedisTestCase(unittest.TestCase):
             time.sleep(1.00001)
             with RedisLock(self.conn, lock_key, blocking=False) as two:
                 self.assertTrue(two.acquired)
+
+        # test signal handler
+        signal.signal(signal.SIGTERM, signal.SIG_IGN)
+        with RedisLock(self.conn, lock_key, timeout=10) as one:
+            self.assertTrue(one.acquired)
+            os.kill(os.getpid(), signal.SIGTERM)
+            self.assertFalse(one.acquired)
+
+        with RedisLock(self.conn, lock_key, timeout=10) as one:
+            self.assertTrue(one.acquired)
+            with RedisLock(self.conn, Generator.uuid4(), timeout=10) as two:
+                self.assertTrue(two.acquired)
+                os.kill(os.getpid(), signal.SIGTERM)
+                self.assertFalse(two.acquired)
+            self.assertFalse(one.acquired)
+        try:
+            with RedisLock(self.conn, lock_key, timeout=10) as one:
+                self.assertTrue(one.acquired)
+                try:
+                    os.kill(os.getpid(), signal.SIGINT)
+                except BaseException as e:
+                    self.assertIsInstance(e, KeyboardInterrupt)
+                self.assertFalse(one.acquired)
+
+            with RedisLock(self.conn, lock_key, timeout=10) as one:
+                self.assertTrue(one.acquired)
+                with RedisLock(self.conn, Generator.uuid4(), timeout=10) as two:
+                    self.assertTrue(two.acquired)
+                    try:
+                        os.kill(os.getpid(), signal.SIGINT)
+                    except BaseException as e:
+                        self.assertIsInstance(e, KeyboardInterrupt)
+                    self.assertFalse(one.acquired)
+                    self.assertFalse(two.acquired)
+        except BaseException as e:
+            self.assertIsInstance(e, KeyboardInterrupt)

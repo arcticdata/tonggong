@@ -1,4 +1,6 @@
+import signal
 import time
+import os
 
 from redis import Redis
 from redis.lock import Lock, LockError
@@ -78,13 +80,30 @@ class RedisLock(Lock):
     def __enter__(self):
         token = str(time.time())  # Set token to current time string
         self._acquired = self.acquire(token=token)
+        # 保存原始信号处理器
+        self.old_sigint = signal.signal(signal.SIGINT, self._handler)
+        self.old_sigterm = signal.signal(signal.SIGTERM, self._handler)
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         try:
             super(RedisLock, self).release()
+            self._acquired = False
         except LockError:  # 可能锁已经自动失效释放，忽略 LockError
             pass
+
+    def _handler(self, signum, frame):
+        # 释放锁
+        try:
+            super(RedisLock, self).release()
+            self._acquired = False
+        except LockError:  # 可能锁已经自动失效释放，忽略 LockError
+            pass
+        # 还原信号处理器
+        signal.signal(signal.SIGINT, self.old_sigint)
+        signal.signal(signal.SIGTERM, self.old_sigterm)
+        # 发送原始信号
+        os.kill(os.getpid(), signum)
 
     @property
     def acquired(self) -> bool:
