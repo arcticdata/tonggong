@@ -7,6 +7,7 @@ class DatabaseAdapter(IntEnum):
     CLICKHOUSE = 2
     MYSQL = 3
     SPARK = 4
+    ELASTICSEARCH = 5
 
     @classmethod
     def choices(cls):
@@ -15,6 +16,7 @@ class DatabaseAdapter(IntEnum):
             (cls.CLICKHOUSE.value, "ClickHouse"),
             (cls.MYSQL.value, "MySQL"),
             (cls.SPARK.value, "Spark"),
+            (cls.ELASTICSEARCH, "Elasticsearch"),
         ]
 
 
