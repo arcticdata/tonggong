@@ -16,7 +16,7 @@ class DatabaseAdapter(IntEnum):
             (cls.CLICKHOUSE.value, "ClickHouse"),
             (cls.MYSQL.value, "MySQL"),
             (cls.SPARK.value, "Spark"),
-            (cls.ELASTICSEARCH, "Elasticsearch"),
+            (cls.ELASTICSEARCH.value, "Elasticsearch"),
         ]
 
 
