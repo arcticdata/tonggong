@@ -6,8 +6,9 @@ class DatabaseAdapter(IntEnum):
     POSTGRESQL = 1  # 默认的数据库类型
     CLICKHOUSE = 2
     MYSQL = 3
-    SPARK = 4
-    ELASTICSEARCH = 5
+    SPARK_SQL = 4
+    ELASTICSEARCH_QUERY = 5
+    ELASTICSEARCH_SQL = 6
 
     @classmethod
     def choices(cls):
@@ -15,8 +16,9 @@ class DatabaseAdapter(IntEnum):
             (cls.POSTGRESQL.value, "PostgreSQL"),
             (cls.CLICKHOUSE.value, "ClickHouse"),
             (cls.MYSQL.value, "MySQL"),
-            (cls.SPARK.value, "Spark"),
-            (cls.ELASTICSEARCH.value, "Elasticsearch"),
+            (cls.SPARK_SQL.value, "Spark SQL"),
+            (cls.ELASTICSEARCH_QUERY.value, "Elasticsearch Query"),
+            (cls.ELASTICSEARCH_SQL.value, "Elasticsearch SQL"),
         ]
 
 
