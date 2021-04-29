@@ -9,13 +9,15 @@ class DatabaseAdapter(IntEnum):
     SPARK_SQL = 4
     ELASTICSEARCH_QUERY = 5
     ELASTICSEARCH_SQL = 6
+    MYSQL_5_7 = 7
 
     @classmethod
     def choices(cls):
         return [
             (cls.POSTGRESQL.value, "PostgreSQL"),
             (cls.CLICKHOUSE.value, "ClickHouse"),
-            (cls.MYSQL.value, "MySQL"),
+            (cls.MYSQL.value, "MySQL 8.0"),
+            (cls.MYSQL_5_7.value, "MySQL 5.7"),
             (cls.SPARK_SQL.value, "Spark SQL"),
             (cls.ELASTICSEARCH_QUERY.value, "Elasticsearch Query"),
             (cls.ELASTICSEARCH_SQL.value, "Elasticsearch SQL"),
