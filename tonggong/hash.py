@@ -16,7 +16,7 @@ class Hash(object):
 
     @staticmethod
     def file_md5(_path: str) -> str:
-        """ 计算文件的 md5 值 """
+        """计算文件的 md5 值"""
         hash_md5 = hashlib.md5()
         with open(_path, "rb") as f:
             for chunk in iter(lambda: f.read(4096), b""):

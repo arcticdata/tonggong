@@ -4,7 +4,7 @@ from typing import Union
 
 
 class Converter(object):
-    """ 将字符串转换成对用的 Python 类型 """
+    """将字符串转换成对用的 Python 类型"""
 
     @classmethod
     def get_date(cls, value: str, str_format="%Y-%m-%d") -> datetime.date:

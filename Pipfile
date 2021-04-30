@@ -7,7 +7,7 @@ verify_ssl = true
 pytest = "*"
 pyyaml = "*"
 redis = "*"
-black = "==20.8b1"
+black = "==21.4b2"
 
 [packages]
 
