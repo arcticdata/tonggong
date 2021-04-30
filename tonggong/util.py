@@ -8,12 +8,12 @@ from typing import Union
 
 
 def base64_encode(value: str) -> str:
-    """ 对字符串进行 base64 编码， 去掉末尾的 = """
+    """对字符串进行 base64 编码， 去掉末尾的 ="""
     return base64.b64encode(value.encode("utf8")).decode("utf8").rstrip("=")
 
 
 def base64_decode(value: str) -> str:
-    """ 对字符串进行 base64 解码 """
+    """对字符串进行 base64 解码"""
     return base64.b64decode(padding_base64(value)).decode("utf8")
 
 
@@ -77,5 +77,5 @@ _SUB_DELIMS_REGEX = re.compile(r"[\!\$\&\'\(\)\*\+\,\;\=]")
 
 
 def has_uri_reversed_character(s: str) -> bool:
-    """ Ref: https://tools.ietf.org/html/rfc3986#section-2.2 """
+    """Ref: https://tools.ietf.org/html/rfc3986#section-2.2"""
     return bool(_GEN_DELIMS_REGEX.search(s) or _SUB_DELIMS_REGEX.search(s))

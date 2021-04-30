@@ -109,7 +109,7 @@ class RedisLock(Lock):
 
     @classmethod
     def get_key_name(cls, name: str) -> str:
-        """ Get Redis lock key name """
+        """Get Redis lock key name"""
         return f"redis-lock:{name}"
 
     def release(self):

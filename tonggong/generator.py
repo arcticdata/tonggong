@@ -3,7 +3,7 @@ import uuid
 
 
 class Generator(object):
-    """ 随机数据生成器 """
+    """随机数据生成器"""
 
     @staticmethod
     def uuid4() -> str:

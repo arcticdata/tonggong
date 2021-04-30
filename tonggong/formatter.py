@@ -10,7 +10,7 @@ _translator = str.maketrans("", "", _special_characters)
 
 
 def remove_special_character(_str: str) -> str:
-    """ 过滤掉字符串中的特殊字符 """
+    """过滤掉字符串中的特殊字符"""
     return _str.translate(_translator)
 
 
@@ -78,7 +78,7 @@ class Formatter(object):
 
     @classmethod
     def chinese_number(cls, number: _NUMBER_TYPE) -> str:
-        """ 数字的中文展示 """
+        """数字的中文展示"""
         if isinstance(number, str):
             number = float(number)
         number = round(number) if is_int(number) else number
