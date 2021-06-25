@@ -20,6 +20,8 @@ class UtilTestCase(unittest.TestCase):
         cases = [
             ("hello", "aGVsbG8"),
             ("any carnal pleas", "YW55IGNhcm5hbCBwbGVhcw"),
+            ("印度尼西亚", "5Y2w5bqm5bC86KW-5Lqa"),
+            ("草色入簾青", "6I2J6Imy5YWl57C+6Z2S"),
         ]
         for value, encode_value in cases:
             actual = base64_encode(value)
@@ -30,14 +32,16 @@ class UtilTestCase(unittest.TestCase):
     def test_padding_base64(self):
         # reference: https://en.wikipedia.org/wiki/Base64
         cases = [
-            ("YW55IGNhcm5hbCBwbGVhcw", "YW55IGNhcm5hbCBwbGVhcw==", b"any carnal pleas"),
-            ("YW55IGNhcm5hbCBwbGVhc3U", "YW55IGNhcm5hbCBwbGVhc3U=", b"any carnal pleasu"),
-            ("YW55IGNhcm5hbCBwbGVhc3Vy", "YW55IGNhcm5hbCBwbGVhc3Vy", b"any carnal pleasur"),
+            ("YW55IGNhcm5hbCBwbGVhcw", "YW55IGNhcm5hbCBwbGVhcw==", "any carnal pleas"),
+            ("YW55IGNhcm5hbCBwbGVhc3U", "YW55IGNhcm5hbCBwbGVhc3U=", "any carnal pleasu"),
+            ("YW55IGNhcm5hbCBwbGVhc3Vy", "YW55IGNhcm5hbCBwbGVhc3Vy", "any carnal pleasur"),
+            ("5Y2w5bqm5bC86KW-5Lqa", "5Y2w5bqm5bC86KW-5Lqa", "印度尼西亚"),
+            ("6I2J6Imy5YWl57C+6Z2S", "6I2J6Imy5YWl57C+6Z2S", "草色入簾青"),
         ]
         for encoded, encoded_with_padding, decoded in cases:
             actual = padding_base64(encoded)
             self.assertEqual(encoded_with_padding, actual)
-            actual = base64.b64decode(actual)
+            actual = base64.b64decode(actual, altchars=b"+-").decode()
             self.assertEqual(decoded, actual)
 
     def test_json_dumps(self):

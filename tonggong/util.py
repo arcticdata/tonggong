@@ -9,12 +9,12 @@ from typing import Union
 
 def base64_encode(value: str) -> str:
     """对字符串进行 base64 编码， 去掉末尾的 ="""
-    return base64.b64encode(value.encode("utf8")).decode("utf8").rstrip("=")
+    return base64.b64encode(value.encode("utf8"), altchars=b"+-").decode("utf8").rstrip("=")
 
 
 def base64_decode(value: str) -> str:
     """对字符串进行 base64 解码"""
-    return base64.b64decode(padding_base64(value)).decode("utf8")
+    return base64.b64decode(padding_base64(value), altchars=b"+-").decode("utf8")
 
 
 def padding_base64(value: str) -> str:
