@@ -10,6 +10,9 @@ class DatabaseAdapter(IntEnum):
     ELASTICSEARCH_QUERY = 5
     ELASTICSEARCH_SQL = 6
     MYSQL_5_7 = 7
+    KYLIN = 8
+    ORACLE = 9
+    SQL_SERVER = 10
 
     @classmethod
     def choices(cls):
@@ -21,6 +24,9 @@ class DatabaseAdapter(IntEnum):
             (cls.SPARK_SQL.value, "Spark SQL"),
             (cls.ELASTICSEARCH_QUERY.value, "Elasticsearch Query"),
             (cls.ELASTICSEARCH_SQL.value, "Elasticsearch SQL"),
+            (cls.KYLIN.value, "Kylin"),
+            (cls.ORACLE.value, "Oracle"),
+            (cls.SQL_SERVER.value, "SQL Server"),
         ]
 
 
