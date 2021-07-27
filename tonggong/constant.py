@@ -28,7 +28,7 @@ class DatabaseAdapter(IntEnum):
             (cls.KYLIN.value, "Kylin"),
             (cls.ORACLE.value, "Oracle"),
             (cls.SQL_SERVER.value, "SQL Server"),
-            (cls.TINGYUN.value, "Tingyun")
+            (cls.TINGYUN.value, "Tingyun"),
         ]
 
 
