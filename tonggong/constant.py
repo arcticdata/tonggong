@@ -15,6 +15,9 @@ class DatabaseAdapter(IntEnum):
     SQL_SERVER = 10
     TINGYUN = 11
     EXCEL = 12
+    KYLIGENCE = 13
+    APACHE_DORIS = 14
+    GREENPLUM = 15
 
     @classmethod
     def choices(cls):
@@ -31,6 +34,9 @@ class DatabaseAdapter(IntEnum):
             (cls.SQL_SERVER.value, "SQL Server"),
             (cls.TINGYUN.value, "Tingyun"),
             (cls.EXCEL.value, "Excel"),
+            (cls.KYLIGENCE.value, "Kyligence"),
+            (cls.APACHE_DORIS.value, "Apache Doris"),
+            (cls.GREENPLUM.value, "Greenplum"),
         ]
 
 
