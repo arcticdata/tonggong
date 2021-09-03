@@ -34,4 +34,4 @@ def decode(s: str) -> int:
         if char not in _ALPHABET:
             raise Exception(f"string {char} not surport Base62 coding format")
         num = num * len(_ALPHABET) + _BASE_DICT[char]
-    return -num if not flag else num
+    return num if flag else -num
