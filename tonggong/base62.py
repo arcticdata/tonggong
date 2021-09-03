@@ -20,9 +20,7 @@ def encode(n: int) -> str:
     while num:
         num, remainder = divmod(num, len(_ALPHABET))
         encoding = _ALPHABET[remainder] + encoding
-    if n < 0:
-        encoding = '-' + encoding
-    return encoding
+    return encoding if n >= 0 else '-' + encoding
 
 
 def decode(s: str) -> int:
@@ -36,6 +34,4 @@ def decode(s: str) -> int:
         if char not in _ALPHABET:
             raise Exception(f"string {char} not surport Base62 coding format")
         num = num * len(_ALPHABET) + _BASE_DICT[char]
-    if not flag:
-        return -num
-    return num
+    return -num if not flag else num
