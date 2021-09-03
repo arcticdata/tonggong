@@ -28,6 +28,12 @@
 
 通用工具集合
 
+### 环境安装
+> pipenv install --dev
+
+### 格式化
+> pipenv run black .
+
 ### 单元测试
 
 > pipenv run pytest
