@@ -9,7 +9,9 @@ class Base62TestCase(unittest.TestCase):
             (0, "A"),
             (1, "B"),
             (2, "C"),
-            (123, "B9")
+            (123, "B9"),
+            (62, 'BA'),
+            (234484, '9AA')
         ]
         for num, value in cases:
             self.assertEqual(num, base62.decode(value))
