@@ -20,14 +20,14 @@ def encode(n: int) -> str:
     while num:
         num, remainder = divmod(num, len(_ALPHABET))
         encoding = _ALPHABET[remainder] + encoding
-    return encoding if n >= 0 else '-' + encoding
+    return encoding if n >= 0 else "-" + encoding
 
 
 def decode(s: str) -> int:
     """编码转换数值"""
     num = 0
     flag = True
-    if s[0] == '-':
+    if s[0] == "-":
         s = s[1:]
         flag = False
     for char in s:
