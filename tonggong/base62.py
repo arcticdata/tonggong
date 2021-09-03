@@ -29,7 +29,3 @@ def decode(s: str) -> int:
             return -1
         num = num * BASE_LEN + BASE_DICT[char]
     return num
-
-
-for i in range(100):
-    print(i, decode(encode(i)), encode(i))
