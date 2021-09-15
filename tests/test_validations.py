@@ -3,7 +3,7 @@ import decimal
 import unittest
 from enum import Enum
 
-from tonggong.validations.error import EmailError, LengthError, MaxLengthError, MinLengthError, NullError, ParamError
+from tonggong.validations.errors import EmailError, LengthError, MaxLengthError, MinLengthError, NullError, ParamError
 from tonggong.validations.validators import (
     DateValidator,
     DatetimeValidator,

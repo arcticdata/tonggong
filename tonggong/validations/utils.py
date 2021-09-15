@@ -1,7 +1,7 @@
 import ipaddress
 import re
 
-from .error import EmailError
+from .errors import EmailError
 
 
 def _validate_ipv4_address(value):
