@@ -3,7 +3,15 @@ import decimal
 import unittest
 from enum import Enum
 
-from tonggong.validations.errors import EmailError, LengthError, MaxLengthError, MinLengthError, NullError, ParamError
+from tonggong.validations.errors import (
+    BaseValidationError,
+    LengthError,
+    MaxLengthError,
+    MinLengthError,
+    NullError,
+    ParamError,
+)
+from tonggong.validations.utils import *
 from tonggong.validations.validators import (
     DateValidator,
     DatetimeValidator,
@@ -34,8 +42,9 @@ class ValidatorTestCase(unittest.TestCase):
 class IntValidatorTestCase(unittest.TestCase):
     def test_validate(self):
         test_cases = [
-            ((), (1, "test_field_1"), 1),
-            ((), ("1", "test_field_2"), 1),
+            ((1, 5, True), (None, "test_field_1"), None),
+            ((), (1, "test_field_2"), 1),
+            ((), ("1", "test_field_3"), 1),
             ((1, 5, False), (3, "test_field_3"), 3),
             ((5, 9, False), (3, "wrong_field_2"), MinLengthError),
             ((5, 9, False), (12, "wrong_field_3"), MaxLengthError),
@@ -93,10 +102,12 @@ class StrValidatorTestCase(unittest.TestCase):
             ({"min_length": 2, "max_length": 4}, ("abc", "test_field_3"), "abc"),
             ({"allow_null": True}, (None, "test_field_4"), None),
             ({"length": 5, "strip": False}, (" abc ", "test_field_5"), " abc "),
+            ({"allow_reversed_characters": True}, (r"\@", "test_field_6"), r"\@"),
             ({"length": 5}, ("abc", "wrong_field_1"), LengthError),
             ({"min_length": 3, "max_length": 5}, ("ab", "wrong_field_2"), MinLengthError),
             ({"min_length": 3, "max_length": 5}, ("abcdefg", "wrong_field_3"), MaxLengthError),
             ({"allow_null": False}, (None, "wrong_field_4"), NullError),
+            ({"allow_reversed_characters": False}, (r"\@", "wrong_field_5"), ParamError),
         ]
 
         for args, case, expected in test_cases:
@@ -115,6 +126,7 @@ class EmailValidatorTestCase(unittest.TestCase):
             ((), (None, "wrong_field_1"), NullError),
             ((), ("xxx193242@@outlook.com", "wrong_field_2"), EmailError),
             ((), ("xxxxx@23423423@.com", "wrong_field_3"), EmailError),
+            ((), ("21312412xxxxxx", "wrong_field_4"), EmailError),
         ]
 
         for args, case, expected in test_cases:
@@ -226,8 +238,11 @@ class ListValidatorTestCase(unittest.TestCase):
             ((IntValidator(), 10), ([1, 2, 3, 4], "test_field_1"), [1, 2, 3, 4]),
             ((StrValidator(), 10), (["1", "2", "3"], "test_field_2"), ["1", "2", "3"]),
             ((StrValidator(), 10), ("1,2,3,4,5", "test_field_3"), ["1", "2", "3", "4", "5"]),
+            ((IntValidator(), 10), ([], "test_field_4"), []),
+            ((IntValidator(), 10, True), (None, "test_field_5"), None),
             ((IntValidator(), 3), ([1, 2, 3, 4, 5], "wrong_field_1"), MaxLengthError),
             ((StrValidator(), 10, False, True), ("1,2,3,4", "wrong_field_2"), ParamError),
+            ((IntValidator(), 10), (None, "test_field_3"), NullError),
         ]
 
         for args, case, expected in test_cases:
@@ -267,3 +282,54 @@ class SchemaValidatorTestCase(unittest.TestCase):
                 self.assertEqual(expected, actual)
             except Exception as e:
                 self.assertTrue(isinstance(e, expected))
+
+
+class ErrorsModuleTestCase(unittest.TestCase):
+    def test_BaseValidationError(self):
+        test_cases = [
+            (("this is wrong", {"data": "data"}), ("this is wrong", {"data": "data"})),
+            (({"key1": "value1"}, {"data": "data"}), ("{'key1': 'value1'}", {"data": "data"})),
+        ]
+
+        for case, expected in test_cases:
+            b = BaseValidationError(*case)
+            self.assertEqual((b.message, b.data), expected)
+
+    def test_repr(self):
+        test_cases = [
+            (
+                BaseValidationError("error").__repr__(),
+                "<class 'tonggong.validations.errors.BaseValidationError'>: error",
+            ),
+            (BaseValidationError().__repr__(), "<class 'tonggong.validations.errors.BaseValidationError'>: None"),
+        ]
+
+        for case, expected in test_cases:
+            self.assertEqual(case, expected)
+
+
+class UtilsTestCase(unittest.TestCase):
+    def test_EmailValidate(self):
+        test_cases = [((), (None, None)), (("message", "code"), ("message", "code"))]
+
+        for case, expected in test_cases:
+            e = EmailValidate(*case)
+            self.assertEqual((e.message, e.code), expected)
+
+    def test_is_phone(self):
+        test_cases = [(None, False), ("12345678911", True)]
+
+        for case, expected in test_cases:
+            self.assertEqual(is_phone(case), expected)
+
+    def test_is_email(self):
+        test_cases = [(None, False), ("123456789@outlook.com", True)]
+
+        for case, expected in test_cases:
+            self.assertEqual(is_email(case), expected)
+
+    def test_has_uri_reversed_character(self):
+        test_cases = [(r"\@", True), ("abcfgh", False)]
+
+        for case, expected in test_cases:
+            self.assertEqual(has_uri_reversed_character(case), expected)

@@ -1,39 +1,10 @@
 import datetime
 import decimal
 import json
-import re
 from typing import List, Union
 
-from .utils import EmailValidate
 from .errors import *
-
-# 手机号正则表达式
-REGEX_PHONE = re.compile(r"1\d{10}")
-_GEN_DELIMS_REGEX = re.compile(r"[\:\/\?\#\[\]\@]")
-_SUB_DELIMS_REGEX = re.compile(r"[\!\$\&\'\(\)\*\+\,\;\=]")
-
-
-def is_phone(phone: str = None) -> bool:
-    if not phone:
-        return False
-    return bool(REGEX_PHONE.fullmatch(phone))
-
-
-def is_email(email: str = None) -> bool:
-    if not email:
-        return False
-    email_validator = EmailValidate()
-    result = True
-    try:
-        email_validator(email)
-    except EmailError:
-        result = False
-    return result
-
-
-def has_uri_reversed_character(s: str) -> bool:
-    """Ref: https://tools.ietf.org/html/rfc3986#section-2.2"""
-    return bool(_GEN_DELIMS_REGEX.search(s) or _SUB_DELIMS_REGEX.search(s))
+from .utils import has_uri_reversed_character, is_email, is_phone
 
 
 class Validator(object):
