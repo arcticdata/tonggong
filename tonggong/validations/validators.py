@@ -4,9 +4,8 @@ import json
 import re
 from typing import List, Union
 
-
-from .error import *
 from .EmailValidate import EmailValidate
+from .error import *
 
 # 手机号正则表达式
 REGEX_PHONE = re.compile(r"1\d{10}")

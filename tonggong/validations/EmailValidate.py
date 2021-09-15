@@ -1,6 +1,5 @@
-import re
 import ipaddress
-
+import re
 
 from .error import EmailError
 
