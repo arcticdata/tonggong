@@ -5,40 +5,33 @@ class BaseValidationError(Exception):
         self.message = message
         self.data = data
 
-    def __str__(self):
+    def __repr__(self):
         return f"{type(self)}: {self.message}"
 
 
 class ParamError(BaseValidationError):
-    def __init__(self, message=None):
-        super(ParamError, self).__init__(message=message)
+    """参数错误异常类型"""
 
 
 class MinLengthError(BaseValidationError):
-    def __init__(self, message=None):
-        super(MinLengthError, self).__init__(message=message)
+    """小于最小长度异常类型"""
 
 
 class MaxLengthError(BaseValidationError):
-    def __init__(self, message=None):
-        super(MaxLengthError, self).__init__(message=message)
+    """超出最大长度异常类型"""
 
 
 class NullError(BaseValidationError):
-    def __init__(self, message=None):
-        super(NullError, self).__init__(message=message)
+    """参数为空异常类型"""
 
 
 class LengthError(BaseValidationError):
-    def __init__(self, message=None):
-        super(LengthError, self).__init__(message=message)
+    """长度不符合异常类型"""
 
 
 class EmailError(BaseValidationError):
-    def __init__(self, message=None):
-        super(EmailError, self).__init__(message=message)
+    """邮箱格式错误异常类型"""
 
 
 class SchemaError(BaseValidationError):
-    def __init__(self, message=None, data=None):
-        super(SchemaError, self).__init__(message=message, data=data)
+    """schema错误异常类型"""
