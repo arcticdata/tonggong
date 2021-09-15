@@ -204,15 +204,13 @@ class DatetimeValidatorTestCase(unittest.TestCase):
 
 class EnumValidatorTestCase(unittest.TestCase):
     def test_validate(self):
-        class Color(Enum):
-            red = 1
-            green = 2
-            blue = 3
-            yellow = 4
-            pink = 5
-            cyan = 6
 
-        test_cases = [((Color, int), (1, "test_field_1"), 1), ((Color, int), ("a", "wrong_field_1"), ParamError)]
+        colorEnum = Enum("ColorEnum", {"red": 1, "green": 2, "blue": 3, "yellow": 4, "pink": 5, "cyan": 6})
+
+        test_cases = [
+            ((colorEnum, int), (1, "test_field_1"), 1),
+            ((colorEnum, int), ("a", "wrong_field_1"), ParamError),
+        ]
 
         for args, case, expected in test_cases:
             try:
