@@ -61,14 +61,6 @@ class EmailValidate(object):
             raise EmailError(self.message)
 
         if not self.validate_domain_part(domain_part):
-            # Try for possible IDN domain-part
-            try:
-                domain_part = domain_part.encode("idna").decode("ascii")
-            except UnicodeError:
-                pass
-            else:
-                if self.validate_domain_part(domain_part):
-                    return
             raise EmailError(self.message)
 
     def validate_domain_part(self, domain_part):

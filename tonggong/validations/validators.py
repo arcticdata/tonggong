@@ -163,9 +163,9 @@ class SchemaValidator(Validator):
         if isinstance(schema, dict):
             self.schema = schema
         else:
-            raise ValueError("schema should be a dictionary")
+            raise ParamError("schema should be a dictionary")
 
-    def validate(self, value: dict, field_name: str):
+    def validate(self, value: dict, field_name: str=None):
         data = {}
         for field, validation in self.schema.items():
             if isinstance(validation, Validation):
@@ -273,8 +273,6 @@ class ListValidator(Validator):
             if not isinstance(value, List):
                 if self.strict:
                     raise ParamError(f"{field_name}参数必须为列表类型")
-                if value is None:
-                    raise NullError(f"{field_name}参数不允许为空")
                 value = value.split(",")
             if self.max_length and len(value) > self.max_length:
                 raise MaxLengthError(f"{field_name}参数长度最大为{self.max_length}")

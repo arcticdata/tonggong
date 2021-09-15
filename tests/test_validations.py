@@ -10,6 +10,7 @@ from tonggong.validations.errors import (
     MinLengthError,
     NullError,
     ParamError,
+    SchemaError
 )
 from tonggong.validations.utils import *
 from tonggong.validations.validators import (
@@ -24,6 +25,7 @@ from tonggong.validations.validators import (
     PhoneValidator,
     SchemaValidator,
     StrValidator,
+    UUIDValidator,
     UsernameValidator,
     Validation,
     Validator,
@@ -113,6 +115,22 @@ class StrValidatorTestCase(unittest.TestCase):
         for args, case, expected in test_cases:
             try:
                 actual = StrValidator(**args).validate(*case)
+                self.assertEqual(expected, actual)
+            except Exception as e:
+                self.assertTrue(isinstance(e, expected))
+
+class UUIDValidatorTestCase(unittest.TestCase):
+    def test_validate(self):
+        test_cases = [
+            ((), ("421237d8161011ec999e0a80ff2603de", "test_field_1"), "421237d8161011ec999e0a80ff2603de"),
+            ((True,), (None, "test_field_2"), None),
+            ((), (None, "wrong_field_1"), NullError),
+            ((), ("abcedfasfaw", "wrong_field_2"), LengthError),
+        ]
+
+        for args, case, expected in test_cases:
+            try:
+                actual = UUIDValidator(*args).validate(*case)
                 self.assertEqual(expected, actual)
             except Exception as e:
                 self.assertTrue(isinstance(e, expected))
@@ -242,6 +260,7 @@ class ListValidatorTestCase(unittest.TestCase):
             ((IntValidator(), 10, True), (None, "test_field_5"), None),
             ((IntValidator(), 3), ([1, 2, 3, 4, 5], "wrong_field_1"), MaxLengthError),
             ((StrValidator(), 10, False, True), ("1,2,3,4", "wrong_field_2"), ParamError),
+            ((StrValidator(), 10, False, True), ("1,2,3,4", "wrong_field_2"), ParamError),
             ((IntValidator(), 10), (None, "test_field_3"), NullError),
         ]
 
@@ -271,9 +290,14 @@ class SchemaValidatorTestCase(unittest.TestCase):
                     "key2": Validation(StrValidator(), "wrong_field_2"),
                     "key3": Validation(IntValidator(), "wrong_field_3"),
                 },
-                ({"key1": "abc", "key2": "value2", "key3": "123"}, "wrong_test"),
+                ({"key1": "abc", "key2": "value2", "key3": "123"}, "wrong_test_1"),
                 LengthError,
             ),
+            ("abc", ({"key1": "value1"}), ParamError),
+            ({"key1": Validation(IntValidator(), "wrong_field_4")}, ({"key2": 1}, "wrong_test_2"), SchemaError),
+            ({"key1": Validation(IntValidator(), "wrong_field_5")}, ({"key2": 1}),
+             SchemaError),
+            ({"key1": Validation(IntValidator(), "wrong_field_6")}, ({"key1": "a"}, "wrong_test_4"), ParamError)
         ]
 
         for args, case, expected in test_cases:
