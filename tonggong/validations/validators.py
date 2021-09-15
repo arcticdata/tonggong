@@ -165,7 +165,7 @@ class SchemaValidator(Validator):
         else:
             raise ParamError("schema should be a dictionary")
 
-    def validate(self, value: dict, field_name: str=None):
+    def validate(self, value: dict, field_name: str = None):
         data = {}
         for field, validation in self.schema.items():
             if isinstance(validation, Validation):

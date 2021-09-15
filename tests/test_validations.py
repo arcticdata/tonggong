@@ -10,7 +10,7 @@ from tonggong.validations.errors import (
     MinLengthError,
     NullError,
     ParamError,
-    SchemaError
+    SchemaError,
 )
 from tonggong.validations.utils import *
 from tonggong.validations.validators import (
@@ -118,6 +118,7 @@ class StrValidatorTestCase(unittest.TestCase):
                 self.assertEqual(expected, actual)
             except Exception as e:
                 self.assertTrue(isinstance(e, expected))
+
 
 class UUIDValidatorTestCase(unittest.TestCase):
     def test_validate(self):
@@ -295,9 +296,8 @@ class SchemaValidatorTestCase(unittest.TestCase):
             ),
             ("abc", ({"key1": "value1"}), ParamError),
             ({"key1": Validation(IntValidator(), "wrong_field_4")}, ({"key2": 1}, "wrong_test_2"), SchemaError),
-            ({"key1": Validation(IntValidator(), "wrong_field_5")}, ({"key2": 1}),
-             SchemaError),
-            ({"key1": Validation(IntValidator(), "wrong_field_6")}, ({"key1": "a"}, "wrong_test_4"), ParamError)
+            ({"key1": Validation(IntValidator(), "wrong_field_5")}, ({"key2": 1}), SchemaError),
+            ({"key1": Validation(IntValidator(), "wrong_field_6")}, ({"key1": "a"}, "wrong_test_4"), ParamError),
         ]
 
         for args, case, expected in test_cases:
