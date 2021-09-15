@@ -1,5 +1,6 @@
 import decimal
 import datetime
+from enum import Enum
 import unittest
 
 from tonggong.validations.validators import (
@@ -54,7 +55,7 @@ class IntValidatorTestCase(unittest.TestCase):
                 actual = IntValidator(*args).validate(*case)
                 self.assertEqual(expected, actual)
             except Exception as e:
-                self.assertEqual(type(e), expected)
+                self.assertTrue(isinstance(e, expected))
 
 
 class DictValidatorTestCase(unittest.TestCase):
@@ -71,7 +72,7 @@ class DictValidatorTestCase(unittest.TestCase):
                 actual = DictValidator().validate(*case)
                 self.assertEqual(expected, actual)
             except Exception as e:
-                self.assertEqual(type(e), expected)
+                self.assertTrue(isinstance(e, expected))
 
 
 class DecimalValidatorTestCase(unittest.TestCase):
@@ -90,7 +91,7 @@ class DecimalValidatorTestCase(unittest.TestCase):
                 actual = DecimalValidator(*args).validate(*case)
                 self.assertEqual(expected, actual)
             except Exception as e:
-                self.assertEqual(type(e), expected)
+                self.assertTrue(isinstance(e, expected))
 
 
 class StrValidatorTestCase(unittest.TestCase):
@@ -112,7 +113,7 @@ class StrValidatorTestCase(unittest.TestCase):
                 actual = StrValidator(**args).validate(*case)
                 self.assertEqual(expected, actual)
             except Exception as e:
-                self.assertEqual(type(e), expected)
+                self.assertTrue(isinstance(e, expected))
 
 
 class EmailValidatorTestCase(unittest.TestCase):
@@ -130,7 +131,7 @@ class EmailValidatorTestCase(unittest.TestCase):
                 actual = EmailValidator(*args).validate(*case)
                 self.assertEqual(expected, actual)
             except Exception as e:
-                self.assertEqual(type(e), expected)
+                self.assertTrue(isinstance(e, expected))
 
 
 class PhoneValidatorTestCase(unittest.TestCase):
@@ -148,7 +149,7 @@ class PhoneValidatorTestCase(unittest.TestCase):
                 actual = PhoneValidator(*args).validate(*case)
                 self.assertEqual(expected, actual)
             except Exception as e:
-                self.assertEqual(type(e), expected)
+                self.assertTrue(isinstance(e, expected))
 
 
 class UsernameValidatorTestCase(unittest.TestCase):
@@ -167,7 +168,7 @@ class UsernameValidatorTestCase(unittest.TestCase):
                 actual = UsernameValidator(*args).validate(*case)
                 self.assertEqual(expected, actual)
             except Exception as e:
-                self.assertEqual(type(e), expected)
+                self.assertTrue(isinstance(e, expected))
 
 
 class DateValidatorTestCase(unittest.TestCase):
@@ -184,7 +185,7 @@ class DateValidatorTestCase(unittest.TestCase):
                 actual = DateValidator().validate(*case)
                 self.assertEqual(expected, actual)
             except Exception as e:
-                self.assertEqual(type(e), expected)
+                self.assertTrue(isinstance(e, expected))
 
 
 class DatetimeValidatorTestCase(unittest.TestCase):
@@ -207,12 +208,27 @@ class DatetimeValidatorTestCase(unittest.TestCase):
                 actual = DatetimeValidator().validate(*case)
                 self.assertEqual(expected, actual)
             except Exception as e:
-                self.assertEqual(type(e), expected)
+                self.assertTrue(isinstance(e, expected))
 
 
 class EnumValidatorTestCase(unittest.TestCase):
     def test_validate(self):
-        pass
+        class Color(Enum):
+            red = 1
+            green = 2
+            blue = 3
+            yellow = 4
+            pink = 5
+            cyan = 6
+
+        test_cases = [((Color, int), (1, "test_field_1"), 1), ((Color, int), ("a", "wrong_field_1"), ParamError)]
+
+        for args, case, expected in test_cases:
+            try:
+                actual = EnumValidator(*args).validate(*case)
+                self.assertEqual(actual, expected)
+            except Exception as e:
+                self.assertTrue(isinstance(e, expected))
 
 
 class ListValidatorTestCase(unittest.TestCase):
@@ -230,7 +246,7 @@ class ListValidatorTestCase(unittest.TestCase):
                 actual = ListValidator(*args).validate(*case)
                 self.assertEqual(expected, actual)
             except Exception as e:
-                self.assertEqual(type(e), expected)
+                self.assertTrue(isinstance(e, expected))
 
 
 class SchemaValidatorTestCase(unittest.TestCase):
@@ -261,4 +277,4 @@ class SchemaValidatorTestCase(unittest.TestCase):
                 actual = SchemaValidator(args).validate(*case)
                 self.assertEqual(expected, actual)
             except Exception as e:
-                self.assertEqual(type(e), expected)
+                self.assertTrue(isinstance(e, expected))
