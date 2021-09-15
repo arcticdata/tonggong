@@ -1,186 +1,12 @@
-# -*- coding: utf-8 -*-
-"""
--------------------------------------------------
-Project Name: tonggong
-File Name: validations.py
-Author: xyb
-Create Date: 2021/9/13 上午11:35
--------------------------------------------------
-"""
-
 import datetime
 import decimal
-import ipaddress
 import json
 import re
 from typing import List, Union
 
 
-class BaseError(Exception):
-    def __init__(self, message=None, e_type=None, data=None):
-        if not isinstance(message, str):
-            message = f"{message}"
-        self.message = message
-        self.e_type = e_type
-        self.data = data
-
-    def __str__(self):
-        return f"{self.e_type}: {self.message}"
-
-
-class ParamError(BaseError):
-    def __init__(self, message=None):
-        super(ParamError, self).__init__(message=message, e_type=ParamError)
-
-
-class MinLengthError(BaseError):
-    def __init__(self, message=None):
-        super(MinLengthError, self).__init__(message=message, e_type=MinLengthError)
-
-
-class MaxLengthError(BaseError):
-    def __init__(self, message=None):
-        super(MaxLengthError, self).__init__(message=message, e_type=MaxLengthError)
-
-
-class NullError(BaseError):
-    def __init__(self, message=None):
-        super(NullError, self).__init__(message=message, e_type=NullError)
-
-
-class LengthError(BaseError):
-    def __init__(self, message=None):
-        super(LengthError, self).__init__(message=message, e_type=LengthError)
-
-
-class EmailError(BaseError):
-    def __init__(self, message=None):
-        super(EmailError, self).__init__(message=message, e_type=EmailError)
-
-
-class SchemaError(BaseError):
-    def __init__(self, message=None, data=None):
-        super(SchemaError, self).__init__(message=message, e_type=SchemaError, data=data)
-
-
-# -------------------- 自定义异常 ----------------------------------------------
-
-
-def validate_ipv4_address(value):
-    try:
-        ipaddress.IPv4Address(value)
-    except ValueError:
-        raise EmailError("invalid IPv4 address.")
-    else:
-        # Leading zeros are forbidden to avoid ambiguity with the octal
-        # notation. This restriction is included in Python 3.9.5+.
-        # TODO: Remove when dropping support for PY39.
-        if any(octet != "0" and octet[0] == "0" for octet in value.split(".")):
-            raise EmailError("invalid IPv4 address.")
-
-
-def is_valid_ipv6_address(ip_str):
-    """
-    Return whether or not the `ip_str` string is a valid IPv6 address.
-    """
-    try:
-        ipaddress.IPv6Address(ip_str)
-    except ValueError:
-        return False
-    return True
-
-
-def validate_ipv6_address(value):
-    if not is_valid_ipv6_address(value):
-        raise EmailError("invalid IPv6 address.")
-
-
-def validate_ipv46_address(value):
-    try:
-        validate_ipv4_address(value)
-    except Exception:
-        try:
-            validate_ipv6_address(value)
-        except Exception:
-            raise EmailError("invalid IPv4 or IPv6 address.")
-
-
-class EmailValidate(object):
-    message = "Enter a valid email address."
-    code = "invalid"
-    user_regex = re.compile(
-        r"(^[-!#$%&'*+/=?^_`{}|~0-9A-Z]+(\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*\Z"  # dot-atom
-        r'|^"([\001-\010\013\014\016-\037!#-\[\]-\177]|\\[\001-\011\013\014\016-\177])*"\Z)',  # quoted-string
-        re.IGNORECASE,
-    )
-    domain_regex = re.compile(
-        # max length for domain name labels is 63 characters per RFC 1034
-        r"((?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+)(?:[A-Z0-9-]{2,63}(?<!-))\Z",
-        re.IGNORECASE,
-    )
-    literal_regex = re.compile(
-        # literal form, ipv4 or ipv6 address (SMTP 4.1.3)
-        r"\[([A-f0-9:.]+)\]\Z",
-        re.IGNORECASE,
-    )
-    domain_allowlist = ["localhost"]
-
-    def __init__(self, message=None, code=None, allowlist=None, *, whitelist=None):
-        if whitelist is not None:
-            allowlist = whitelist
-        if message is not None:
-            self.message = message
-        if code is not None:
-            self.code = code
-        if allowlist is not None:
-            self.domain_allowlist = allowlist
-
-    def __call__(self, value):
-        if not value or "@" not in value:
-            raise EmailError(self.message)
-
-        user_part, domain_part = value.rsplit("@", 1)
-
-        if not self.user_regex.match(user_part):
-            raise EmailError(self.message)
-
-        if domain_part not in self.domain_allowlist and not self.validate_domain_part(domain_part):
-            # Try for possible IDN domain-part
-            try:
-                domain_part = domain_part.encode("idna").decode("ascii")
-            except UnicodeError:
-                pass
-            else:
-                if self.validate_domain_part(domain_part):
-                    return
-            raise EmailError(self.message)
-
-    def __eq__(self, other):
-        return (
-            isinstance(other, EmailValidate)
-            and (self.domain_allowlist == other.domain_allowlist)
-            and (self.message == other.message)
-            and (self.code == other.code)
-        )
-
-    def validate_domain_part(self, domain_part):
-        if self.domain_regex.match(domain_part):
-            return True
-
-        literal_match = self.literal_regex.match(domain_part)
-        if literal_match:
-            ip_address = literal_match[1]
-            # noinspection PyBroadException
-            try:
-                validate_ipv46_address(ip_address)
-                return True
-            except Exception:
-                pass
-        return False
-
-
-# -------------------- 邮箱验证 ------------------------------------------------
-
+from .error import *
+from .EmailValidate import EmailValidate
 
 # 手机号正则表达式
 REGEX_PHONE = re.compile(r"1\d{10}")
@@ -214,7 +40,7 @@ def has_uri_reversed_character(s: str) -> bool:
 class Validator(object):
     accept_type = None
 
-    def validate(self, value, field_name):
+    def validate(self, value: any, field_name: str):
         try:
             data = self.accept_type(value) if value is not None else None
         except (ValueError, decimal.InvalidOperation):
@@ -245,7 +71,7 @@ class IntValidator(Validator):
         self.max_value = max_value
         self.allow_null = allow_null
 
-    def validate(self, value, field_name):
+    def validate(self, value: int, field_name: str):
         if value is None:
             if self.allow_null:
                 return None
@@ -264,7 +90,7 @@ class DictValidator(Validator):
 
     accept_type = dict
 
-    def validate(self, value, field_name):
+    def validate(self, value: Union[str, dict], field_name: str):
         if isinstance(value, self.accept_type):
             return value
         try:
@@ -282,7 +108,7 @@ class DecimalValidator(Validator):
         self.decimal_places = decimal_places
         self.rounding = rounding
 
-    def validate(self, value, field_name):
+    def validate(self, value, field_name: str):
         if value is None and self.default is not None:
             value = self.default
         elif value is None:
@@ -311,7 +137,7 @@ class StrValidator(Validator):
         self.strip = strip
         self.allow_reversed_characters = allow_reversed_characters
 
-    def validate(self, value, field_name):
+    def validate(self, value: str, field_name: str):
         if value is None:
             if self.allow_null:
                 return None
@@ -351,7 +177,7 @@ class EmailValidator(Validator):
     def __init__(self, allow_null: bool = False):
         self.allow_null = allow_null
 
-    def validate(self, value, field_name):
+    def validate(self, value: str, field_name: str):
         # 长度为0的认为是None
         if value is None or not len(value.strip()):
             if self.allow_null:
@@ -363,13 +189,13 @@ class EmailValidator(Validator):
 
 
 class SchemaValidator(Validator):
-    def __init__(self, schema):
+    def __init__(self, schema: dict):
         if isinstance(schema, dict):
             self.schema = schema
         else:
             raise ValueError("schema should be a dictionary")
 
-    def validate(self, value, field_name):
+    def validate(self, value: dict, field_name: str):
         data = {}
         for field, validation in self.schema.items():
             if isinstance(validation, Validation):
@@ -387,7 +213,7 @@ class SchemaValidator(Validator):
                             data[field] = validator.validate(value[field], _field_name)
                             success = True
                             break
-                        except BaseError as e:
+                        except BaseValidationError as e:
                             if len(validation.validators) == 1:
                                 raise e
                             continue
@@ -400,7 +226,7 @@ class PhoneValidator(StrValidator):
     def __init__(self, allow_null: bool = False):
         super(PhoneValidator, self).__init__(length=11, allow_null=allow_null)
 
-    def validate(self, value, field_name):
+    def validate(self, value: str, field_name: str):
         # 长度为0的字符串认为是None
         if value is None or not len(value.strip()):
             if self.allow_null:
@@ -415,18 +241,18 @@ class UsernameValidator(StrValidator):
     def __init__(self, allow_null=False):
         super(UsernameValidator, self).__init__(max_length=50, allow_null=allow_null)
 
-    def validate(self, value, field_name):
+    def validate(self, value: str, field_name: str):
         try:
             data = super().validate(value, field_name)
             if data is not None and ("@" in data or data.isdigit()):
-                raise ParamError()
-        except ParamError:
-            raise ParamError(f"{field_name}用户名格式不正确, 应为数字和字母组合, 不能包含@特殊符号")
+                raise ParamError(f"{field_name}用户名格式不正确, 应为数字和字母组合, 不能包含@特殊符号")
+        except ParamError as e:
+            raise e
         return data
 
 
 class DateValidator(Validator):
-    def validate(self, value, field_name):
+    def validate(self, value: str, field_name: str):
         try:
             data = datetime.datetime.strptime(value, "%Y-%m-%d").date()
         except (ValueError, decimal.InvalidOperation):
@@ -435,7 +261,7 @@ class DateValidator(Validator):
 
 
 class DatetimeValidator(Validator):
-    def validate(self, value, field_name):
+    def validate(self, value: str, field_name: str):
         try:
             data = datetime.datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
         except (ValueError, decimal.InvalidOperation):
@@ -444,12 +270,12 @@ class DatetimeValidator(Validator):
 
 
 class EnumValidator(Validator):
-    def __init__(self, enum_type, accept_type, allow_null: bool = False):
+    def __init__(self, enum_type: any, accept_type: any, allow_null: bool = False):
         self.enum_type = enum_type
         self.accept_type = accept_type
         self.allow_null = allow_null
 
-    def validate(self, value, field_name):
+    def validate(self, value: any, field_name: str):
         try:
             data = self.enum_type(self.accept_type(value)).value if (not self.allow_null or value) else None
         except Exception:
@@ -458,13 +284,13 @@ class EnumValidator(Validator):
 
 
 class ListValidator(Validator):
-    def __init__(self, validator, max_length: int = None, allow_null: bool = False, strict: bool = False):
+    def __init__(self, validator: Validator, max_length: int = None, allow_null: bool = False, strict: bool = False):
         self.validator = validator
         self.max_length = max_length
         self.allow_null = allow_null
         self.strict = strict
 
-    def validate(self, value, field_name):
+    def validate(self, value: Union[List, str], field_name: str):
         try:
             if value is None:
                 if self.allow_null:
@@ -486,16 +312,5 @@ class ListValidator(Validator):
                 _d = self.validator.validate(d, field_name)
                 data.append(_d)
         except Exception as e:
-            # if not isinstance(e, ParamError):
-            #     e = ParamError(f"{field_name}参数不正确")
             raise e
         return data
-
-
-# ----------------------- 上面是验证器 -------------------------------------------
-
-QUESTION_VALIDATORS = [
-    ListValidator(DictValidator(), strict=True),
-    ListValidator(StrValidator(), strict=True),
-    StrValidator(),
-]
