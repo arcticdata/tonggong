@@ -33,7 +33,6 @@ class DatabaseAdapter(IntEnum):
             (cls.ELASTICSEARCH_SQL.value, "Elasticsearch SQL"),
             (cls.KYLIN.value, "Apache Kylin"),
             (cls.ORACLE.value, "Oracle"),
-            (cls.SQL_SERVER_2008.value, "Microsoft SQL Server 2008"),
             (cls.TINGYUN.value, "Tingyun"),
             (cls.EXCEL.value, "Excel"),
             (cls.KYLIGENCE.value, "Kyligence"),
