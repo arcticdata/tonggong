@@ -12,12 +12,14 @@ class DatabaseAdapter(IntEnum):
     MYSQL_5_7 = 7
     KYLIN = 8
     ORACLE = 9
-    SQL_SERVER = 10
+    SQL_SERVER_2008 = 10
     TINGYUN = 11
     EXCEL = 12
     KYLIGENCE = 13
     APACHE_DORIS = 14
     GREENPLUM = 15
+    SQL_SERVER_2012 = 16
+    MONGODB_5_0 = 17
 
     @classmethod
     def choices(cls):
@@ -29,14 +31,16 @@ class DatabaseAdapter(IntEnum):
             (cls.SPARK_SQL.value, "Spark SQL"),
             (cls.ELASTICSEARCH_QUERY.value, "Elasticsearch Query"),
             (cls.ELASTICSEARCH_SQL.value, "Elasticsearch SQL"),
-            (cls.KYLIN.value, "Kylin"),
+            (cls.KYLIN.value, "Apache Kylin"),
             (cls.ORACLE.value, "Oracle"),
-            (cls.SQL_SERVER.value, "SQL Server"),
             (cls.TINGYUN.value, "Tingyun"),
             (cls.EXCEL.value, "Excel"),
             (cls.KYLIGENCE.value, "Kyligence"),
             (cls.APACHE_DORIS.value, "Apache Doris"),
             (cls.GREENPLUM.value, "Greenplum"),
+            (cls.SQL_SERVER_2008.value, "Microsoft SQL Server 2008"),
+            (cls.SQL_SERVER_2012.value, "Microsoft SQL Server 2012"),
+            (cls.MONGODB_5_0.value, "MongoDB 5.0"),
         ]
 
 
