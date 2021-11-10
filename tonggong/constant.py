@@ -40,7 +40,7 @@ class DatabaseAdapter(IntEnum):
             (cls.GREENPLUM.value, "Greenplum"),
             (cls.SQL_SERVER_2008.value, "Microsoft SQL Server 2008"),
             (cls.SQL_SERVER_2012.value, "Microsoft SQL Server 2012"),
-            (cls.MONGODB_5_0.value, "MongoDB 5.0")
+            (cls.MONGODB_5_0.value, "MongoDB 5.0"),
         ]
 
 
