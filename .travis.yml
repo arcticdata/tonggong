@@ -10,7 +10,7 @@ services:
   - redis-server
 
 install:
-  - pip install black==21.4b2
+  - pip install black==22.1
   - pip install pytest==5.4.3
   - pip install pytest-cov codecov
   - pip install redis pyyaml

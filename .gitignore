@@ -5,4 +5,4 @@ tonggong.egg-info
 build
 dist
 *.pyc
-Pipfile.lock
+.coverage
