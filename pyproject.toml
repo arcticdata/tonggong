@@ -22,3 +22,7 @@ exclude = '''
   | tonggong/crontab.py
 )
 '''
+
+[tool.isort]
+profile = "black"
+line_length=120

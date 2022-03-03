@@ -9,10 +9,10 @@ http://www.gnu.org/licenses/lgpl.html
 Other licenses may be available upon request.
 """
 
-from collections import namedtuple
-from datetime import datetime, timedelta
 import sys
 import warnings
+from collections import namedtuple
+from datetime import datetime, timedelta
 
 _ranges = [
     (0, 59),

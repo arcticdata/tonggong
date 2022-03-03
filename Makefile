@@ -3,10 +3,12 @@ install:
 	pipenv clean
 
 fmt:
+	pipenv run isort .
 	pipenv run black .
 
 lint:
+	pipenv run isort --check .
 	pipenv run black --check .
 
 test:
-	pipenv run pytest
+	pipenv run pytest --cov=./
