@@ -2,13 +2,7 @@ import datetime
 import decimal
 import unittest
 
-from tonggong.formatter import (
-    Formatter,
-    TableFormatter,
-    YAxisFormatter,
-    remove_special_character,
-    right_single_slash,
-)
+from tonggong.formatter import Formatter, TableFormatter, YAxisFormatter, remove_special_character, right_single_slash
 
 
 class FormatterTestCase(unittest.TestCase):

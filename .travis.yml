@@ -10,10 +10,8 @@ services:
   - redis-server
 
 install:
-  - pip install black==22.1
-  - pip install pytest==5.4.3
-  - pip install pytest-cov codecov
-  - pip install redis pyyaml
+  - pip install -U pipenv
+  - pipenv sync --dev --system
 
 script:
   - black --check .

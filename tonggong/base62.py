@@ -6,7 +6,6 @@ https://en.wikipedia.org/wiki/Base62
 
 import string
 
-
 _ALPHABET = string.ascii_uppercase + string.ascii_lowercase + string.digits
 _BASE_DICT = dict((c, v) for v, c in enumerate(_ALPHABET))
 
