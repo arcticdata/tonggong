@@ -11,7 +11,7 @@ class Generator(object):
 
     @staticmethod
     def pincode(length: int = 6) -> str:
-        max_int = 10 ** length - 1
+        max_int = 10**length - 1
         return "{:0{length}d}".format(random.randint(1, max_int), length=length)
 
     @staticmethod

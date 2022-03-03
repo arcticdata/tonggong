@@ -4,10 +4,10 @@ url = "https://mirrors.tencent.com/pypi/simple/"
 verify_ssl = true
 
 [dev-packages]
+black = "==22.1"
 pytest = "*"
 pyyaml = "*"
 redis = "*"
-black = "==21.4b2"
 
 [packages]
 
