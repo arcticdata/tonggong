@@ -4,10 +4,14 @@ url = "https://mirrors.tencent.com/pypi/simple/"
 verify_ssl = true
 
 [dev-packages]
-pytest = "*"
-pyyaml = "*"
-redis = "*"
-black = "==21.4b2"
+black = ">=22.1"
+codecov = ">=2.1.12"
+isort = ">=5.10.1"
+pytest-cov = ">=3.0.0"
+pyyaml = ">=6.0"
+redis = ">=4.1.4"
+typed-ast = { version = ">=1.5.2", markers = "python_version == '3.7'" }
+typing-extensions = ">=4.1.1"
 
 [packages]
 

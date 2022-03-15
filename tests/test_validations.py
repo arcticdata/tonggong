@@ -14,8 +14,8 @@ from tonggong.validations.errors import (
 )
 from tonggong.validations.utils import *
 from tonggong.validations.validators import (
-    DateValidator,
     DatetimeValidator,
+    DateValidator,
     DecimalValidator,
     DictValidator,
     EmailValidator,
@@ -25,8 +25,8 @@ from tonggong.validations.validators import (
     PhoneValidator,
     SchemaValidator,
     StrValidator,
-    UUIDValidator,
     UsernameValidator,
+    UUIDValidator,
     Validation,
     Validator,
 )

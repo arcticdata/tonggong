@@ -1,7 +1,6 @@
 language: python
 
 python:
-  - "3.6"
   - "3.7"
   - "3.8"
   - "3.9"
@@ -10,10 +9,8 @@ services:
   - redis-server
 
 install:
-  - pip install black==21.4b2
-  - pip install pytest==5.4.3
-  - pip install pytest-cov codecov
-  - pip install redis pyyaml
+  - pip install -U pipenv
+  - pipenv sync --dev --system
 
 script:
   - black --check .

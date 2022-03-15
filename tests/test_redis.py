@@ -1,5 +1,6 @@
 import os
 import signal
+import sys
 import time
 import unittest
 
@@ -7,13 +8,7 @@ import redis
 
 from tonggong.generator import Generator
 from tonggong.hash import Hash
-from tonggong.redis import (
-    RedisLock,
-    safe_delete_hash,
-    safe_delete_list,
-    safe_delete_set,
-    safe_delete_sorted_set,
-)
+from tonggong.redis import RedisLock, safe_delete_hash, safe_delete_list, safe_delete_set, safe_delete_sorted_set
 
 
 class RedisTestCase(unittest.TestCase):
@@ -74,6 +69,7 @@ class RedisTestCase(unittest.TestCase):
             with RedisLock(self.conn, lock_key, blocking=False) as two:
                 self.assertTrue(two.acquired)
 
+    @unittest.skipIf(sys.platform == "win32", "windows has no SIGINT")
     def test_redis_lock_signal(self):
         lock_key = Generator.uuid4()
 
