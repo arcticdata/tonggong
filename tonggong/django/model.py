@@ -17,8 +17,12 @@ class ModelMixin:
 
             user.modify(age=18)
         """
+        from django.core.exceptions import FieldDoesNotExist
+
         for field, value in fields.items():
-            if field not in self._meta.fields_map:
+            try:
+                self._meta.get_field(field)
+            except FieldDoesNotExist:
                 raise ValueError(f"Invalid field name {field}")
             setattr(self, field, value)
         self.save(update_fields=list(fields.keys()))
