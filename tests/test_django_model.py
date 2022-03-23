@@ -4,7 +4,12 @@ from tonggong.django.model import ModelMixin
 
 
 class Meta:
-    fields_map = {"key": "key", "name": "name"}
+    def get_field(self, field: str):
+        from django.core.exceptions import FieldDoesNotExist
+
+        if field not in {"key": "key", "name": "name"}:
+            raise FieldDoesNotExist("not exist")
+        return field
 
 
 class User(ModelMixin):
