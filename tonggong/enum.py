@@ -12,6 +12,9 @@ class Enum(enum.Enum):
     def choice_values(cls) -> list:
         return [_.value for _ in cls]
 
+    def __str__(self):
+        return str(self.value)
+
 
 class IntEnum(int, Enum):
     """整数型枚举"""

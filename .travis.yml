@@ -9,7 +9,7 @@ services:
   - redis-server
 
 install:
-  - pip install -U pipenv
+  - pip install -U pipenv importlib-metadata
   - pipenv sync --dev --system
 
 script:
