@@ -3,7 +3,8 @@ import signal
 import time
 
 from redis import Redis
-from redis.lock import Lock, LockError
+from redis.exceptions import LockError
+from redis.lock import Lock
 
 from tonggong.hash import Hash
 

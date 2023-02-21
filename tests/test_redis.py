@@ -4,7 +4,7 @@ import sys
 import time
 import unittest
 
-import redis
+import fakeredis
 
 from tonggong.generator import Generator
 from tonggong.hash import Hash
@@ -13,7 +13,7 @@ from tonggong.redis import RedisLock, safe_delete_hash, safe_delete_list, safe_d
 
 class RedisTestCase(unittest.TestCase):
     def setUp(self) -> None:
-        self.conn = redis.Redis()
+        self.conn = fakeredis.FakeRedis()
 
     def test_safe_delete_hash(self):
         key = Generator.uuid4()
