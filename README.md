@@ -13,12 +13,9 @@
     <a href="https://codecov.io/gh/arcticdata/tonggong">
         <img src="https://img.shields.io/codecov/c/gh/arcticdata/tonggong/master?style=flat-square" alt="Codecov" />
     </a>
-    <a href="https://travis-ci.com/arcticdata/tonggong">
-        <img src="https://img.shields.io/travis/com/arcticdata/tonggong?style=flat-square" alt="Travis" />
-    </a>
 </p>
 
-```
+```chinese
 彤弓弨兮，受言藏之。我有嘉宾，中心贶之。钟鼓既设，一朝飨之。
 彤弓弨兮，受言载之。我有嘉宾，中心喜之。钟鼓既设，一朝右之。
 彤弓弨兮，受言櫜之。我有嘉宾，中心好之。钟鼓既设，一朝酬之。
@@ -29,10 +26,13 @@
 通用工具集合
 
 ### 环境安装
+
 > make install
 
 ### 格式化
+
 > make fmt
 
 ### 单元测试
+
 > make test
