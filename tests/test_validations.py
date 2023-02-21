@@ -235,7 +235,6 @@ class DatetimeValidatorTestCase(unittest.TestCase):
 
 class EnumValidatorTestCase(unittest.TestCase):
     def test_validate(self):
-
         colorEnum = Enum("ColorEnum", {"red": 1, "green": 2, "blue": 3, "yellow": 4, "pink": 5, "cyan": 6})
 
         test_cases = [
