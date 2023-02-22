@@ -4,7 +4,7 @@ import datetime
 import json
 import logging
 import re
-from typing import Union
+from typing import Optional, Union
 
 
 def base64_encode(value: str) -> str:
@@ -21,6 +21,11 @@ def padding_base64(value: str) -> str:
     num = len(value) % 4
     num = 4 - num if num else 0
     return value + "=" * num
+
+
+def first(items: Optional[iter], default=None):
+    """获取数组的第一个元素"""
+    return next(iter(items or []), default)
 
 
 def json_dumps(obj, separators=(",", ":"), sort_keys=True, ensure_ascii=False, **kwargs) -> str:

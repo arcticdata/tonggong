@@ -7,6 +7,7 @@ from tonggong.util import (
     add_months,
     base64_decode,
     base64_encode,
+    first,
     has_uri_reversed_character,
     json_dumps,
     minus_months,
@@ -43,6 +44,14 @@ class UtilTestCase(unittest.TestCase):
             self.assertEqual(encoded_with_padding, actual)
             actual = base64.b64decode(actual, altchars=b"+-").decode()
             self.assertEqual(decoded, actual)
+
+    def test_first(self):
+        self.assertEqual(0, first(range(3)))
+        self.assertEqual(1, first([1, 2, 3]))
+        self.assertEqual(2, first(None, default=2))
+        self.assertEqual(3, first([3, 6], 9))
+        self.assertEqual(4, first([], 4))
+        self.assertEqual(5, first({5: 6, 7: 8}))
 
     def test_json_dumps(self):
         cases = [
