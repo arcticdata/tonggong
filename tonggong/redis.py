@@ -1,3 +1,4 @@
+import contextlib
 import os
 import signal
 import time
@@ -114,10 +115,9 @@ class RedisLock(Lock):
         return f"redis-lock:{name}"
 
     def release(self):
-        try:
+        # 可能锁已经自动失效释放，忽略 LockError;
+        with contextlib.suppress(LockError, AttributeError):
             super(RedisLock, self).release()
-        except LockError:  # 可能锁已经自动失效释放，忽略 LockError
-            pass
 
     def _register_signal_handler(self):
         """接管信号处理函数"""
