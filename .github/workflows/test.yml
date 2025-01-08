@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip pipenv
-          pipenv sync --dev --system
+          make install
 
       - name: Lint
         run: make lint
