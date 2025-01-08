@@ -4,7 +4,10 @@ import datetime
 import json
 import logging
 import re
-from typing import Optional, Union
+from typing import Iterable, TypeVar, Union
+
+T = TypeVar("T")
+V = TypeVar("V")
 
 
 def base64_encode(value: str) -> str:
@@ -23,7 +26,7 @@ def padding_base64(value: str) -> str:
     return value + "=" * num
 
 
-def first(items: Optional[iter], default=None):
+def first(items: Iterable[T] | None, default: V | None = None) -> T | V | None:
     """获取数组的第一个元素"""
     return next(iter(items or []), default)
 
