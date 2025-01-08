@@ -1,14 +1,14 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "92265054e1e3b1b180c11ff441446f5b1d0fd867e55a1e0765d11c01105f4954"
+            "sha256": "bbd7e43ba6eb75cf19096221beb000d1b0acc41ca01561d15f741597e7627ef5"
         },
         "pipfile-spec": 6,
         "requires": {},
         "sources": [
             {
-                "name": "mirrorstencent",
-                "url": "https://mirrors.tencent.com/pypi/simple",
+                "name": "pip_conf_index_global",
+                "url": "https://mirrors.cloud.tencent.com/pypi/simple",
                 "verify_ssl": true
             }
         ]
@@ -56,7 +56,7 @@
                 "sha256:f9da3333530dbcecc1be13e69c250ed8dfa67f43c4005fb537bb426e19200d50",
                 "sha256:fe4d6476887de70546212c99ac9bd803d90b42fc4767f058a0baa895013fbb3e"
             ],
-            "index": "mirrorstencent",
+            "index": "pip_conf_index_global",
             "markers": "python_version >= '3.9'",
             "version": "==24.10.0"
         },
@@ -171,7 +171,7 @@
                 "sha256:63c132bbbed01578a06712a2d1f497bb62d9c1c0d329b7903a866228027263b2",
                 "sha256:ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a"
             ],
-            "index": "mirrorstencent",
+            "index": "pip_conf_index_global",
             "markers": "python_version >= '3.7'",
             "version": "==8.1.8"
         },
@@ -181,7 +181,7 @@
                 "sha256:7d2b16c1153d01579a89a94ff14f9dbeb63634ee79e18c11036f34e7de66cbc9",
                 "sha256:c2ca5e51bba9ebb43644c43d0690148a55086f7f5e6fd36170858fa4206744d5"
             ],
-            "index": "mirrorstencent",
+            "index": "pip_conf_index_global",
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.1.13"
         },
@@ -261,7 +261,7 @@
                 "sha256:3a93350214ba25f178d4045c0786c61573e7dbfa3c509b3551374f1e11ba8de0",
                 "sha256:6b56d834cc94c8b21a8f4e775064896be3b4a4ca387f2612d4406a5927cd2fdc"
             ],
-            "index": "mirrorstencent",
+            "index": "pip_conf_index_global",
             "markers": "python_version >= '3.8'",
             "version": "==4.2.17"
         },
@@ -278,7 +278,7 @@
                 "sha256:3ee5003a314954032b96b1365290541346c9cc24aab071b52cc983bb99ecafbf",
                 "sha256:86d4129df001efc25793cb334008160fccc98425d9f94de47884a92b63988c14"
             ],
-            "index": "mirrorstencent",
+            "index": "pip_conf_index_global",
             "markers": "python_version >= '3.7' and python_version < '4.0'",
             "version": "==2.26.2"
         },
@@ -303,7 +303,7 @@
                 "sha256:6be1f76a507cb2ecf16c7cf14a37e41609ca082330be4e3436a18ef74add55db",
                 "sha256:ba1d72fb2595a01c7895a5128f9585a5cc4b6d395f1c8d514989b9a7eb2a8746"
             ],
-            "index": "mirrorstencent",
+            "index": "pip_conf_index_global",
             "markers": "python_full_version >= '3.7.0'",
             "version": "==5.11.5"
         },
@@ -396,7 +396,7 @@
                 "sha256:f3de07b7f19296a702c8710f44b221aefe6563461e209198862cd1f06401b13d",
                 "sha256:fd1e95d8a399ff379d09358490171965aaa25007ed06488b972df08f1b3df509"
             ],
-            "index": "mirrorstencent",
+            "index": "pip_conf_index_global",
             "version": "==2.2"
         },
         "mypy-extensions": {
@@ -452,7 +452,7 @@
                 "sha256:578d5d15ac4a25e5f961c938b85a05b09fdaae9deef3bb6de9a6e766622ca7a6",
                 "sha256:e7f0f5b1617d2210a2cabc266dfe2f4c75a8d32fb89eafb7ad9d06f6d076d470"
             ],
-            "index": "mirrorstencent",
+            "index": "pip_conf_index_global",
             "markers": "python_version >= '3.6'",
             "version": "==3.0.0"
         },
@@ -689,7 +689,7 @@
                 "sha256:fea4c4310061cd70ef73b39801231b9dc3dc638bb8858e38364b144fbd335a1a",
                 "sha256:ff3824dc5261f50c9b0dfb3be22b4567a6f938ccce4587b38952d85fd9e9afe4"
             ],
-            "index": "mirrorstencent",
+            "index": "pip_conf_index_global",
             "markers": "python_version >= '3.6'",
             "version": "==6.0"
         },
@@ -698,7 +698,7 @@
                 "sha256:68226f7ede928db8302f29ab088a157f41061fa946b7ae865452b6d7838bbffb",
                 "sha256:da92a39fec86438d3f1e2a1db33c312985806954fe860120b582a8430e231d8f"
             ],
-            "index": "mirrorstencent",
+            "index": "pip_conf_index_global",
             "markers": "python_version >= '3.7'",
             "version": "==4.4.4"
         },

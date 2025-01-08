@@ -1,8 +1,3 @@
-[[source]]
-url = "https://mirrors.tencent.com/pypi/simple"
-verify_ssl = true
-name = "mirrorstencent"
-
 [packages]
 
 [dev-packages]
