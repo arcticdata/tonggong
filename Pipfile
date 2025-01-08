@@ -1,12 +1,18 @@
+[[source]]
+url = "https://mirrors.tencent.com/pypi/simple"
+verify_ssl = true
+name = "mirrorstencent"
+
+[packages]
+
 [dev-packages]
-black = ">=22.1"
-codecov = ">=2.1.12"
-django = ">=4.2"
-fakeredis = "==2.2.0"
-isort = "==5.11.5"
-lupa = ">=1.14.1"
-pytest-cov = ">=3.0.0"
-pyyaml = ">=6.0"
-redis = ">=4.4.4"
-typed-ast = { version = ">=1.5.2", markers = "python_version == '3.7'" }
-typing-extensions = ">=4.1.1"
+black = "24.10.0"
+click = "8.1.8"
+codecov = "2.1.13"
+django = "4.2.17"
+fakeredis = "2.26.2"
+isort = "5.11.5"
+lupa = "2.2"
+pytest-cov = "3.0.0"
+pyyaml = "6.0"
+redis = "4.4.4"
